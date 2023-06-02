@@ -78,7 +78,7 @@ function ssh_helper {
 
 alias srv="ssh_helper 22"
 alias pc="ssh_helper 3333"
-alias laptop="ssh_helper 3333"
+alias laptop="ssh_helper 4444"
 
 function enable_proxy {
     export http_proxy=http://172.20.0.1:2081
