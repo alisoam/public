@@ -1,27 +1,3 @@
-local Plug = vim.fn['plug#']
-
---[[vim.call('plug#begin', '~/.config/nvim/plugged')
-
--- Plug 'Valloric/YouCompleteMe'
--- Plugin 'rdnetto/YCM-Generator'
--- Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug('sakhnik/nvim-gdb', {['do'] = ':!./install.sh | UpdateRemotePlugins'})
-Plug 'vim-syntastic/syntastic'
-Plug 'nvie/vim-flake8'
-Plug 'elixir-editors/vim-elixir'
-
---Plug('glacambre/firenvim', {
---['do'] = function()
---	firenvim install(0)
---end
---})
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'scalameta/nvim-metals'
-Plug 'neovim/nvim-lspconfig'
-vim.call('plug#end')
-]]
-
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
@@ -35,21 +11,27 @@ require('packer').startup(function()
   use 'fatih/vim-go'
   use 'rust-lang/rust.vim'
   use 'neovim/nvim-lspconfig'
-  use({
+  use {
     "hrsh7th/nvim-cmp",
     requires = {
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-vsnip" },
       { "hrsh7th/vim-vsnip" },
     },
-  })
-  use({
+  }
+  use {
     "scalameta/nvim-metals",
     requires = {
       "nvim-lua/plenary.nvim",
       "mfussenegger/nvim-dap",
     },
-  })
+  }
+  use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use {
+    'glacambre/firenvim',
+    run = function() vim.fn['firenvim#install'](0) end 
+  }
 end)
 
 vim.opt.autoindent = true
@@ -80,38 +62,52 @@ vim.opt.listchars = {
   precedes = '▶',
   -- tab = '»',
 }
----{tab = '', nbsp = '␣', trail = '.', eol = '¬', precedes = '«', extends = '»'}
 
 vim.opt.list = true
 vim.cmd([[colorscheme nord]])
 
 vim.g.airline_powerline_fonts = 1
 vim.g.airline_theme='base16_nord'
+
+vim.api.nvim_create_autocmd({'UIEnter'}, {
+  callback = function(event)
+    local client = vim.api.nvim_get_chan_info(vim.v.event.chan).client
+    if client ~= nil and client.name == 'Firenvim' then
+      vim.o.laststatus = 0
+      vim.g.airline_section_c = ''
+--      vim.opt.guifont = {'Iosevka', 'h12'}
+    else
+
+      vim.g.syntastic_python_python_exec = 'python3'
+      vim.g.syntastic_python_checkers = {'flake8', 'pylint', 'mypy', 'python'}
+      vim.g.syntastic_python_flake8_post_args = '--ignore=E501'
+      vim.python_highlight_all=1
+      -- vim.opt.statusline.append('%#warningmsg#')
+      -- vim.opt.statusline.append(SyntasticStatuslineFlag())
+      -- vim.opt.statusline.append('%*')
+      
+    --  vim.g.syntastic_always_populate_loc_list = 0 """ 1
+    --  vim.g.syntastic_auto_loc_list = 0 """1
+      vim.g.syntastic_check_on_open = 1
+      vim.g.syntastic_check_on_wq = 1
+      -- syntax on
+    end
+  end
+})
+
+vim.api.nvim_command('filetype plugin on')
+vim.api.nvim_command('filetype plugin indent on')
+vim.g.tex_flavor = 'latex'
+vim.api.nvim_command('syntax on')
+vim.api.nvim_command('set termbidi')
+vim.opt.foldlevel = 0
+vim.opt.foldlevelstart = 99
+vim.g.tex_fold_enabled = 0
+--vim.opt.Tex_FoldedSections = ''
+--vim.opt.Tex_FoldedEnvironments = ''
+--vim.opt.Tex_FoldedMisc = ''
+
 --[[
-filetype plugin on
-filetype plugin indent on
-
-set termbidi
-
-if exists('g:started_by_firenvim')
-  let g:airline_section_c = ''
-endif
-if exists('g:started_by_firenvim')
-else
-  let g:syntastic_python_python_exec = 'python3'
-  let g:syntastic_python_checkers = ['flake8', 'pylint', 'mypy', 'python']
-  let g:syntastic_python_flake8_post_args='--ignore=E501'
-  let python_highlight_all=1
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-  
-  let g:syntastic_always_populate_loc_list = 0 """ 1
-  let g:syntastic_auto_loc_list = 0 """1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 1
-  syntax on
-endif
 
 "let g:flake8_show_quickfix=0
 "let g:flake8_show_in_file=1
@@ -146,3 +142,4 @@ vim.opt.secure = true
 require 'lspconfig'
 require 'lspconfig'.pyright.setup{}
 require 'lsp-cfg'
+require 'dap-py'

@@ -1,3 +1,7 @@
+if [ -e "$HOME/.secrets" ]; then
+    source "$HOME/.secrets"
+fi
+
 [ -x "$(command -v setxkbmap)" ] && setxkbmap -option caps:escape
 
 if [ -d "$HOME/bin" ] ; then
@@ -8,33 +12,38 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then
+if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [ -d "$HOME/.local/share/coursier/bin" ] ; then
-  PATH="$PATH:$HOME/.local/share/coursier/bin"
+    PATH="$PATH:$HOME/.local/share/coursier/bin"
 fi
 
-if [ -e $HOME/.cargo/env ]; then
-  . "$HOME/.cargo/env"
+if [ -e "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
 fi
 
-if [ -x "$(command -v setxkbmap)" ]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
+if [ -x "$(command -v pyenv)" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+
+    if [ -x "$(command -v pyenv-virtualenvwrapper)" ]; then
+        export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+        pyenv virtualenvwrapper
+    fi
 fi
 
-if [ -e $HOME/go ]; then
-  export GOPATH=$HOME/gopath
-  export GOHOME=$HOME/go
-  export PATH="$PATH:/usr/local/go/bin:$GOHOME/bin:$GOPATH/bin/"
+if [ -e "$HOME/go" ]; then
+    export GOPATH="$HOME/gopath"
+    export GOHOME="$HOME/go"
+    export PATH="$PATH:/usr/local/go/bin:$GOHOME/bin:$GOPATH/bin/"
 fi
 
-if [ -e $HOME/esp/xtensa-esp32-elf/bin ]; then
-  export IDF_PATH="$HOME/esp/esp-idf"
-  export PATH="$PATH:$HOME/esp/xtensa-esp32-elf/bin:$IDF_PATH/tools"
+if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
+    export IDF_PATH="$HOME/esp/esp-idf"
+    export PATH="$PATH:$HOME/esp/xtensa-esp32-elf/bin:$IDF_PATH/tools"
 fi
 
 export KUBE_EDITOR=nvim
@@ -58,26 +67,29 @@ alias kgd='kubectl get deployment'
 alias kgr='kubectl get rs'
 alias kgs='kubectl get sts'
 alias kex='kubectl exec -it'
-
-alias srv="ssh srv.sosori.ir -t zsh"
-alias pc="ssh gw.sosori.ir -p 3333 -t zsh"
-alias laptop="ssh gw.sosori.ir -p 4444 -t zsh"
+alias grp='grep -nwre'
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-source ~/.secrets
+function ssh_helper {
+  ssh gw.sosori.ir -p $1 ${@:2} -t 'zsh -c "source $HOME/.zshrc; [ -x "$(command -v tmux)" ] && tmux new -A -s ssh || zsh"'
+}
+
+alias srv="ssh_helper 22"
+alias pc="ssh_helper 3333"
+alias laptop="ssh_helper 3333"
 
 function enable_proxy {
-  export http_proxy=http://172.20.0.1:2081
-  export HTTP_PROXY=http://172.20.0.1:2081
-  export https_proxy=http://172.20.0.1:2081
-  export HTTPS_PROXY=http://172.20.0.1:2081
+    export http_proxy=http://172.20.0.1:2081
+    export HTTP_PROXY=http://172.20.0.1:2081
+    export https_proxy=http://172.20.0.1:2081
+    export HTTPS_PROXY=http://172.20.0.1:2081
 }
 
 function disable_proxy {
-  export http_proxy=
-  export HTTP_PROXY=
-  export https_proxy=
-  export HTTPS_PROXY=
+    export http_proxy=
+    export HTTP_PROXY=
+    export https_proxy=
+    export HTTPS_PROXY=
 }

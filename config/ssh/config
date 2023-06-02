@@ -1,4 +1,9 @@
-Host *.sosori.ir
+Host srv.sosori.ir
+    ServerAliveInterval 1
+    ServerAliveCountMax 3
+    ConnectTimeout 10
+
+Host gw.sosori.ir
     ServerAliveInterval 1
     ServerAliveCountMax 3
     ConnectTimeout 10
