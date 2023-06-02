@@ -1,3 +1,3 @@
 #!/bin/sh
 
-git clone git@github.com:alisoam/public.git
+git clone https://github.com/alisoam/public.git
