@@ -19,5 +19,5 @@
 # RUN
 ``` sh
 $ chmod +x ./sync.sh
-$ ./apply.sh check
+$ ./sync.sh check
 ```
