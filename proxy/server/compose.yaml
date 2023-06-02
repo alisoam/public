@@ -1,0 +1,56 @@
+version: '3'
+services:
+  v2ray:
+    image: v2fly/v2fly-core:v5.2.1
+    command:
+      - run
+      - -config
+      - /opt/v2ray/config.json
+    restart: always
+    environment:
+      - v2ray.vmess.aead.forced=false
+    volumes: 
+      - ./v2ray.json:/opt/v2ray/config.json:ro
+      - ./run/v2ray/log/:/opt/log/:rw
+    expose:
+      - 1310
+      - 1311
+
+  nginx:
+    image: nginx:alpine
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |- 
+        envsubst '$${NGINX_ROOT_REDIRECT}' </opt/nginx.conf >/etc/nginx/conf.d/default.conf
+        while :; do
+          sleep 6h & wait $${!}
+          nginx -s reload
+        done & nginx -g "daemon off;"
+    environment:
+      - NGINX_ROOT_REDIRECT
+    restart: always
+    volumes:
+      - ./nginx.conf:/opt/nginx.conf:ro
+      - ./run/certbot/certs/:/opt/certs/:ro
+      - ./run/nginx/log/:/opt/log/:rw
+    ports:
+      - 80:80
+      - 443:443
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: /bin/sh 
+    command:
+      - -c
+      - |-
+        trap exit TERM
+        while :; do
+          certbot renew;
+          sleep 12h & wait $${!};
+        done
+    restart: always
+    volumes:
+      - ./run/certbot/certs/:/etc/letsencrypt:rw
+    expose:
+      - 80

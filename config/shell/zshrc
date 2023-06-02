@@ -1,0 +1,28 @@
+emulate sh -c '. ~/.profile'
+
+[[ $+commands[antigen] ]] || (echo installing antigen && sudo apt install zsh-antigen)
+
+source /usr/share/zsh-antigen/antigen.zsh
+
+export ZSH_THEME=""
+antigen use oh-my-zsh
+
+antigen bundle sindresorhus/pure@main
+zstyle ':prompt:pure:prompt:success' color green
+zstyle ':prompt:pure:prompt:error' color red
+
+antigen bundle git
+antigen bundle zsh-users/zsh-completions
+antigen bundle pip
+antigen bundle command-not-found
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply
+
+KEYTIMEOUT=1
+bindkey -v
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+
+autoload -U +X compinit && compinit
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)

@@ -1,0 +1,97 @@
+{
+    "log": {
+        "access": "none",
+        "loglevel": "error"
+    },
+    "inbounds": [
+        {
+            "port": 2080,
+            "listen": "0.0.0.0",
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        },
+        {
+            "port": 2081,
+            "listen": "0.0.0.0",
+            "protocol": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vless",
+            "tag": "proxy",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "${HOST}",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "${UUID},
+                                "level": 0,
+                                "encryption": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "wsSettings": {
+                    "headers": {
+                        "Host": "${HOST}"
+                    },
+                    "path": "/v2ray/vless"
+                }
+            },
+            "mux": {
+                "enabled": true
+            }
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ],
+    "dns": {
+        "servers": [
+            "8.8.8.8",
+            "8.8.4.4"
+        ]
+    },
+   "routing": {
+       "domainStrategy": "IPIfNonMatch",
+       "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
+                    "ip": [
+                        "geoip:private"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
+                    "domain": [
+                        "domain:.ir",
+                        "domain:digikala.com",
+                        "domain:aparat.com",
+                        "domain:filimo.com",
+                        "domain:torob.com"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
+                    "ip": [
+                        "geoip:ir"
+                    ]
+                }
+            ]
+       }
+    }
+}

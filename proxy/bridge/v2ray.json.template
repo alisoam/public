@@ -1,0 +1,151 @@
+{
+    "log": {
+        "access": "none",
+        "loglevel": "error"
+    },
+    "stats": {},
+    "policy": {
+        "levels": {
+            "0": {
+                "statsUserUplink": true,
+                "statsUserDownlink": true
+            }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true,
+            "statsOutboundUplink": true,
+            "statsOutboundDownlink": true
+        }
+    },
+    "api": {
+        "tag": "api",
+        "services": [
+            "HandlerService",
+            "StatsService"
+        ]
+    },
+    "inbounds": [
+        { 
+            "protocol": "dokodemo-door",
+             "tag": "api",
+            "listen": "0.0.0.0",
+            "port": 8080,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "0.0.0.0"
+            }
+        },
+        {
+            "protocol": "vless",
+            "tag": "public",
+            "listen": "0.0.0.0",
+            "port": 1311,
+            "settings": {
+                "clients": [
+                    {
+                        "email": "<CLIENT_NAME>",
+                        "id": "<CLIENT_USER_ID>",
+                        "level": 0
+                    }
+                ],
+                "decryption": "none"
+             },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {
+                    "path": "/v2ray/vless"
+                }
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vless",
+            "tag": "proxy",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "<PROXY_HOST>",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "<PROXY_USER_ID>",
+                                "level": 0,
+                                "encryption": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "wsSettings": {
+                    "headers": {
+                        "Host": "<PROXY_HOST>"
+                    },
+                    "path": "/v2ray/vless"
+                }
+            },
+            "mux": {
+                "enabled": true
+            }
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "blackhole"
+        }
+
+    ],
+    "dns": {
+        "servers": [
+            "8.8.8.8",
+            "8.8.4.4"
+        ]
+    },
+   "routing": {
+       "domainStrategy": "IPIfNonMatch",
+       "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "inboundTag": [
+                        "api"
+                    ],
+                    "outboundTag": "api"
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "blackhole",
+                    "ip": [
+                        "geoip:private"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
+                    "domain": [
+                        "domain:.ir",
+                        "domain:digikala.com",
+                        "domain:aparat.com",
+                        "domain:filimo.com",
+                        "domain:torob.com"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
+                    "ip": [
+                        "geoip:ir"
+                    ]
+                }
+            ]
+       }
+    }
+}

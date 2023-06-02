@@ -1,0 +1,83 @@
+[ -x "$(command -v setxkbmap)" ] && setxkbmap -option caps:escape
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+if [ -d "$HOME/.local/share/coursier/bin" ] ; then
+  PATH="$PATH:$HOME/.local/share/coursier/bin"
+fi
+
+if [ -e $HOME/.cargo/env ]; then
+  . "$HOME/.cargo/env"
+fi
+
+if [ -x "$(command -v setxkbmap)" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
+if [ -e $HOME/go ]; then
+  export GOPATH=$HOME/gopath
+  export GOHOME=$HOME/go
+  export PATH="$PATH:/usr/local/go/bin:$GOHOME/bin:$GOPATH/bin/"
+fi
+
+if [ -e $HOME/esp/xtensa-esp32-elf/bin ]; then
+  export IDF_PATH="$HOME/esp/esp-idf"
+  export PATH="$PATH:$HOME/esp/xtensa-esp32-elf/bin:$IDF_PATH/tools"
+fi
+
+export KUBE_EDITOR=nvim
+
+alias gdb=gdb-multiarch
+alias reset='reset;tmux clear'
+alias vim='nvim'
+
+alias d='docker'
+alias dr='docker run'
+alias dc='docker-compose'
+alias dcr='docker-compose run --rm -it'
+alias dce='docker-compose exec -it'
+alias v='nvim'
+alias k='kubectl'
+alias kg='kubectl get'
+alias ke='kubectl edit'
+alias kl='kubectl logs -f'
+alias kgp='kubectl get pod'
+alias kgd='kubectl get deployment'
+alias kgr='kubectl get rs'
+alias kgs='kubectl get sts'
+alias kex='kubectl exec -it'
+
+alias srv="ssh srv.sosori.ir -t zsh"
+alias pc="ssh gw.sosori.ir -p 3333 -t zsh"
+alias laptop="ssh gw.sosori.ir -p 4444 -t zsh"
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+source ~/.secrets
+
+function enable_proxy {
+  export http_proxy=http://172.20.0.1:2081
+  export HTTP_PROXY=http://172.20.0.1:2081
+  export https_proxy=http://172.20.0.1:2081
+  export HTTPS_PROXY=http://172.20.0.1:2081
+}
+
+function disable_proxy {
+  export http_proxy=
+  export HTTP_PROXY=
+  export https_proxy=
+  export HTTPS_PROXY=
+}

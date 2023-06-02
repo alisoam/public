@@ -1,0 +1,10 @@
+Host *.sosori.ir
+    ServerAliveInterval 1
+    ServerAliveCountMax 3
+    ConnectTimeout 10
+
+Host *.gitlab.com
+    ProxyCommand nc -X connect -x localhost:2081 %h %p
+    ServerAliveInterval 1
+    ServerAliveCountMax 3
+    ConnectTimeout 10

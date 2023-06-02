@@ -1,0 +1,9 @@
+[user]
+	email = ali.sorouramini@gmail.com
+	name = ali.sorouramini
+[core]
+	editor = nvim
+[url "git@git.cafebazaar.ir:"]
+	insteadOf = https://git.cafebazaar.ir/
+[url "git@git.cafebazaar.org:"]
+	insteadOf = https://git.cafebazaar.org/

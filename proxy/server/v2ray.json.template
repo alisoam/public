@@ -1,0 +1,59 @@
+{
+    "log": {
+        "loglevel": "info"
+    },
+    "inbounds": [
+        {
+            "port": 1311,
+            "listen": "0.0.0.0",
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "name": "<USER_NAME>",
+                        "id": "<USER_ID>",
+                        "level": 0
+                    }
+                ],
+                "decryption": "none"
+             },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/v2ray/vless"
+                }
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "freedom"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "blackhole"
+        }
+    ],
+    "dns": {
+        "servers": [
+            "8.8.8.8",
+            "8.8.4.4",
+            "localhost"
+        ]
+    },
+    "routing": {
+       "domainStrategy": "IPIfNonMatch",
+       "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "outboundTag": "blackhole",
+                    "ip": [
+                        "geoip:private"
+                    ]
+                }
+            ]
+       }
+    }
+}
