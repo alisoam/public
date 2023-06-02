@@ -3,6 +3,8 @@
 	name = ali.sorouramini
 [core]
 	editor = nvim
+[url "git@github.com:alisoam/public.git"]
+	pushInsteadOf = https://github.com/alisoam/public.git
 [url "git@git.cafebazaar.ir:"]
 	insteadOf = https://git.cafebazaar.ir/
 [url "git@git.cafebazaar.org:"]
