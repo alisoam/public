@@ -1,3 +1,5 @@
+ExitOnForwardFailure yes
+
 Host srv.sosori.ir
     ServerAliveInterval 1
     ServerAliveCountMax 3

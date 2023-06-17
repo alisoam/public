@@ -73,7 +73,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 function ssh_helper {
-  ssh gw.sosori.ir -p $1 ${@:2} -t 'zsh -c "source $HOME/.zshrc; [ -x "$(command -v tmux)" ] && tmux new -A -s ssh || zsh"'
+  autossh -M 0 gw.sosori.ir -p $1 ${@:2} -t 'zsh -c "source $HOME/.zshrc; [ -x "$(command -v tmux)" ] && tmux new -A -s ssh || zsh"'
 }
 
 alias srv="ssh_helper 22"
