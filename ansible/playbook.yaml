@@ -1,0 +1,36 @@
+---
+- name: Update ZSH
+  hosts: localhost
+  tasks:
+  - name: Install zsh
+    ansible.builtin.apt:
+      name: zsh
+  - name: Install zsh antigen
+    ansible.builtin.apt:
+      name: zsh-antigen
+
+  - name: install autossh
+    ansible.builtin.apt:
+      name: autossh
+
+  - name: Install build-essential
+    ansible.builtin.apt:
+      name: build-essential
+  - name: Install curl
+    ansible.builtin.apt:
+      name: curl
+
+  - name: Install homebrew
+    command: "echo yes | /usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+
+  - name: Install pyenv
+    community.general.homebrew:
+      name: pyenv
+  - name: Install pyenv-virtualenv
+    community.general.homebrew:
+      name: pyenv-virtualenv 
+
+  - name: Install tmux
+    community.general.homebrew:
+      name: tmux
+
