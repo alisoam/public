@@ -49,7 +49,7 @@ fi
 export KUBE_EDITOR=nvim
 
 alias gdb=gdb-multiarch
-alias reset='reset;tmux clear'
+alias reset='reset;[ -z "$TMUX" ] || tmux clear-history'
 alias vim='nvim'
 
 alias d='docker'
