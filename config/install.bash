@@ -1,8 +1,4 @@
 #!/bin/bash
-#
-pushd $(dirname -- "$0")
 
-pip3 install -r config/requirements.txt
+pip3 install -r requirements.txt
 python3 config/sync.py sync_host
-
-popd

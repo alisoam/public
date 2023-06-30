@@ -16,4 +16,7 @@ brew install tmux
 brew install neovim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-source config/install.bash
+git clone https://github.com/alisoam/public.git
+pushd public/config
+source install.bash
+popd

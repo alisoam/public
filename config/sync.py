@@ -186,8 +186,8 @@ all_configs: list[Config] = [
 
     Directory("kitty", "kitty", "~/.config/kitty"),
 
-    File("docker", "docker/daemon.json", "/etc/docker/daemon.json", True),
-    File("docker", "docker/proxy.conf", "/etc/systemd/system/docker.service.d/proxy.conf", True),
+#    File("docker", "docker/daemon.json", "/etc/docker/daemon.json", True),
+#    File("docker", "docker/proxy.conf", "/etc/systemd/system/docker.service.d/proxy.conf", True),
 ]
 
 
