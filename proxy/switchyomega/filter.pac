@@ -25,7 +25,8 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?aiofilm\.(com|top)$/,
         /^(.*\.)?v2fly\.org$/,
         /^compiles\.overleaf\.com$/,
-        /^(.*\.)?anilist\.co$/
+        /^(.*\.)?anilist\.co$/,
+        /^(.*\.)?openai\.com$/
     ];
 
     for (const pattern of patterns)
