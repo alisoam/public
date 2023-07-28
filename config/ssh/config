@@ -1,17 +1,18 @@
 ExitOnForwardFailure yes
+ServerAliveInterval 1
+ServerAliveCountMax 3
+ConnectTimeout 10
 
-Host srv.sosori.ir
-    ServerAliveInterval 1
-    ServerAliveCountMax 3
-    ConnectTimeout 10
-
-Host gw.sosori.ir
-    ServerAliveInterval 1
-    ServerAliveCountMax 3
-    ConnectTimeout 10
-
-Host *.gitlab.com
+Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
-    ServerAliveInterval 1
-    ServerAliveCountMax 3
-    ConnectTimeout 10
+
+Host srv
+    HostName srv.sosori.ir
+
+Host pc
+    HostName gw.sosori.ir
+    Port 2201
+
+Host laptop
+    HostName gw.sosori.ir
+    Port 2202

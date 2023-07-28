@@ -73,12 +73,12 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 function ssh_helper {
-  autossh -M 0 gw.sosori.ir -p $1 ${@:2} -t 'zsh -c "source $HOME/.zshrc; [ -x "$(command -v tmux)" ] && tmux new -A -s ssh || zsh"'
+  autossh -M 0 $1 ${@:2} -t 'zsh -c "source $HOME/.zshrc; [ -x "$(command -v tmux)" ] && tmux new -A -s ssh || zsh"'
 }
 
-alias srv="ssh_helper 22"
-alias pc="ssh_helper 3333"
-alias laptop="ssh_helper 4444"
+alias srv="ssh_helper srv"
+alias pc="ssh_helper pc"
+alias laptop="ssh_helper laptop"
 
 function enable_proxy {
     export http_proxy=http://172.20.0.1:2081
