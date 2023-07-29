@@ -93,3 +93,15 @@ function disable_proxy {
     export https_proxy=
     export HTTPS_PROXY=
 }
+
+function wake_on_lan {
+    BROADCAST=255.255.255.255
+    PORT=4000
+
+    target=$(echo ${1} | sed 's/[ :-]//g')
+    sync=$(awk "BEGIN {for (i = 0; i < 6; ++i) printf \"ff\" }")
+    mac=$(awk "BEGIN {for (i = 0; i < 16; ++i) printf \"${target}\" }")
+    packet=$(echo -e "${sync}${mac}" | sed -e 's/../\\x&/g')
+
+    echo -e ${packet}  | nc -w1 -u -b $BROADCAST $PORT
+}
