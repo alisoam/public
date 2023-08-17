@@ -26,7 +26,9 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?v2fly\.org$/,
         /^compiles\.overleaf\.com$/,
         /^(.*\.)?anilist\.co$/,
-        /^(.*\.)?openai\.com$/
+        /^(.*\.)?openai\.com$/,
+        /^(.*\.)?youtu\.be$/,
+        /^(.*\.)?bbc\.com$/
     ];
 
     for (const pattern of patterns)
