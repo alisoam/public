@@ -28,7 +28,8 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?anilist\.co$/,
         /^(.*\.)?openai\.com$/,
         /^(.*\.)?youtu\.be$/,
-        /^(.*\.)?bbc\.com$/
+        /^(.*\.)?bbc\.com$/,
+        /^(.*\.)?bbc\.co\.uk$/
     ];
 
     for (const pattern of patterns)
