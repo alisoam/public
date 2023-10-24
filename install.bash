@@ -6,6 +6,9 @@ sudo apt install -y git zsh zsh-antigen autossh build-essential curl python3 pyt
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+brew install jq yq
+source install_ssh_keys.bash
+
 brew install pyenv pyenv-virtualenv
 eval "$(pyenv init -)"
 pyenv install 3.11
