@@ -1,6 +1,6 @@
 {
     "log": {
-        "access": "none",
+        "access": "error",
         "loglevel": "error"
     },
     "inbounds": [
@@ -56,12 +56,6 @@
             "tag": "direct"
         }
     ],
-    "dns": {
-        "servers": [
-            "8.8.8.8",
-            "8.8.4.4"
-        ]
-    },
    "routing": {
        "domainStrategy": "IPIfNonMatch",
        "settings": {
