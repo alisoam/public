@@ -56,7 +56,25 @@
             "tag": "direct"
         }
     ],
-   "routing": {
+    "dns": {
+        "servers": [
+            {
+                "address": "localhost",
+                "skipFallback": true,
+                "domains": [
+                    "domain:.ir",
+                    "domain:digikala.com",
+                    "domain:aparat.com",
+                    "domain:filimo.com",
+                    "domain:torob.com",
+                    "geosite:cloudflare"
+                ]
+            },
+            "https://8.8.8.8/dns-query",
+            "https://1.1.1.1/dns-query"
+        ]
+    },
+    "routing": {
        "domainStrategy": "IPIfNonMatch",
        "settings": {
             "rules": [
@@ -75,12 +93,9 @@
                         "domain:digikala.com",
                         "domain:aparat.com",
                         "domain:filimo.com",
-                        "domain:torob.com"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "direct",
+                        "domain:torob.com",
+                        "geosite:cloudflare"
+                    ],
                     "ip": [
                         "geoip:ir"
                     ]
