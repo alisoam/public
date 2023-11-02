@@ -101,11 +101,28 @@
             "protocol": "blackhole",
             "tag": "blackhole"
         }
-
     ],
-   "routing": {
-       "domainStrategy": "IPIfNonMatch",
-       "settings": {
+    "dns": {
+        "servers": [
+             {
+                "address": "localhost",
+                "skipFallback": true,
+                "domains": [
+                    "domain:.ir",
+                    "domain:digikala.com",
+                    "domain:aparat.com",
+                    "domain:filimo.com",
+                    "domain:torob.com",
+                    "geosite:cloudflare"
+                ]
+             },
+            "https://8.8.8.8/dns-query",
+            "https://1.1.1.1/dns-query"
+        ]
+    },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "settings": {
             "rules": [
                 {
                     "type": "field",
@@ -113,6 +130,14 @@
                         "api"
                     ],
                     "outboundTag": "api"
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "proxy",
+                    "ip": [
+                        "1.1.1.1",
+                        "8.8.8.8"
+                    ]
                 },
                 {
                     "type": "field",
@@ -129,17 +154,14 @@
                         "domain:digikala.com",
                         "domain:aparat.com",
                         "domain:filimo.com",
-                        "domain:torob.com"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "direct",
+                        "domain:torob.com",
+                        "geosite:cloudflare"
+                    ],
                     "ip": [
                         "geoip:ir"
                     ]
                 }
             ]
-       }
+        }
     }
 }
