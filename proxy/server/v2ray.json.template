@@ -1,6 +1,6 @@
 {
     "log": {
-        "access": "none",
+        "access": "error",
         "loglevel": "error"
     },
     "inbounds": [
