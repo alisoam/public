@@ -8,6 +8,7 @@ Host *.gitlab.com gitlab.com
 
 Host srv
     HostName srv.sosori.ir
+    User ali
     ForwardAgent yes
     AddKeysToAgent  yes
 
