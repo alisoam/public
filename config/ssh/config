@@ -6,11 +6,13 @@ ConnectTimeout 10
 Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
 
+HOST *.sosori.ir *.sosoro.ir
+    ForwardAgent yes
+    AddKeysToAgent  yes
+
 Host srv
     HostName srv.sosori.ir
     User ali
-    ForwardAgent yes
-    AddKeysToAgent  yes
 
 Host pc
     HostName gw.sosori.ir
@@ -18,4 +20,16 @@ Host pc
 
 Host laptop
     HostName gw.sosori.ir
+    Port 2202
+
+Host srvo
+    HostName srv.sosoro.ir
+    User ali
+
+Host pco
+    HostName gw.sosoro.ir
+    Port 2201
+
+Host laptopo
+    HostName gw.sosoro.ir
     Port 2202
