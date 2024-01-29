@@ -67,6 +67,8 @@
                     "domain:aparat.com",
                     "domain:filimo.com",
                     "domain:torob.com",
+                    "domain:divar.dev",
+                    "domain:divar.cloud",
                     "geosite:cloudflare"
                 ]
             },
@@ -94,6 +96,8 @@
                         "domain:aparat.com",
                         "domain:filimo.com",
                         "domain:torob.com",
+                        "domain:divar.dev",
+                        "domain:divar.cloud",
                         "geosite:cloudflare"
                     ],
                     "ip": [
