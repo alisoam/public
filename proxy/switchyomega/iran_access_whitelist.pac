@@ -5,7 +5,6 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?digikala\.com$/,
         /^(.*\.)?aparat\.(com|ir)$/,
         /^(.*\.)?filimo\.(com|ir)$/,
-        /^(.*\.)?divar\.ir$/,
         /^(.*\.)?cafebazaar\.(ir|org)$/,
         /^(.*\.)?zoomit\.ir$/,
         /^(.*\.)?zoomg\.ir$/,
