@@ -3,6 +3,8 @@ function FindProxyForURL(url, host, scheme) {
     let patterns  = [
         /^.+\.ir$/,
         /^(.*\.)?aiocdn\.top$/,
+	/^(.*\.)?darab\.click/,
+	/^(.*\.)?borna\.live/,
     ];
 
     for (const pattern of patterns)

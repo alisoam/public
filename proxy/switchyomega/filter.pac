@@ -22,14 +22,15 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?digikey\.com$/,
         /^(.*\.)?mbed\.com$/,
         /^(.*\.)?microchip\.com$/,
-        /^(.*\.)?aiofilm\.(com|top)$/,
+        /^(.*\.)?aiofilm\.(com|top|info)$/,
         /^(.*\.)?v2fly\.org$/,
-        /^compiles\.overleaf\.com$/,
+        /^(.*\.)?overleaf\.com$/,
         /^(.*\.)?anilist\.co$/,
         /^(.*\.)?openai\.com$/,
+	/^(.*\.)?oaistatic\.com/,
         /^(.*\.)?youtu\.be$/,
         /^(.*\.)?bbc\.com$/,
-        /^(.*\.)?bbc\.co\.uk$/
+        /^(.*\.)?bbc\.co\.uk$/,
     ];
 
     for (const pattern of patterns)
