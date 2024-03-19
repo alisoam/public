@@ -32,6 +32,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?youtu\.be$/,
         /^(.*\.)?bbc\.com$/,
         /^(.*\.)?bbc\.co\.uk$/,
+        /^(.*\.)?bonbast.com$/,
     ];
 
     for (const pattern of patterns)

@@ -69,6 +69,8 @@
                     "domain:torob.com",
                     "domain:divar.dev",
                     "domain:divar.cloud",
+                    "domain:divarcdn.com",
+                    "domain:snapp.taxi",
                     "geosite:cloudflare"
                 ]
             },
@@ -98,6 +100,8 @@
                         "domain:torob.com",
                         "domain:divar.dev",
                         "domain:divar.cloud",
+                        "domain:divarcdn.com",
+                        "domain:snapp.taxi",
                         "geosite:cloudflare"
                     ],
                     "ip": [
