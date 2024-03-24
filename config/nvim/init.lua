@@ -1,57 +1,106 @@
-local use = require('packer').use
-require('packer').startup(function()
-  use 'wbthomason/packer.nvim' -- Package manager
-  use 'arcticicestudio/nord-vim'
-  use 'airblade/vim-gitgutter'
-  use 'Yggdroot/indentLine'
-  use 'vim-airline/vim-airline'
-  use 'vim-airline/vim-airline-themes'
-  use 'posva/vim-vue'
-  use 'tpope/vim-fugitive'
-  use 'fatih/vim-go'
-  use 'rust-lang/rust.vim'
-  use 'neovim/nvim-lspconfig'
-  use {
-    "hrsh7th/nvim-cmp",
-    requires = {
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-vsnip" },
-      { "hrsh7th/vim-vsnip" },
-    },
-  }
-  use {
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
+
+require("lazy").setup({
+  {
+    "arcticicestudio/nord-vim",
+    lazy = false,
+    config = function()
+      vim.g.nord_underline = 1
+      vim.g.nord_italic_comments = 1
+      vim.g.nord_uniform_status_lines = 1
+      vim.g.nord_cursor_line_number_background = 1
+      vim.g.nord_uniform_diff_background = 1
+      vim.cmd([[colorscheme nord]])
+    end,
+  },
+  {
+    "vim-airline/vim-airline",
+    lazy = false,
+    dependencies = {"vim-airline/vim-airline-themes"},
+    config = function()
+      vim.g.airline_powerline_fonts = 1
+      vim.g.airline_theme = 'base16_nord'
+    end,
+  },
+  {
+    "Yggdroot/indentLine",
+    lazy = false,
+    config = function()
+      vim.g.indentLine_leadingSpacChar='.'
+      vim.g.indentLine_leadingSpaceEnabled = '1'
+      vim.g.indentLine_concealcursor = 'inc'
+      vim.g.indentLine_conceallevel = 1
+      vim.g.indentLine_char_list = {'|', '¦', '┆', '┊'}
+    end,
+  },
+  "airblade/vim-gitgutter",
+  "tpope/vim-fugitive",
+  "neovim/nvim-lspconfig",
+  -- "posva/vim-vue",,
+  {
+    "fatih/vim-go",
+    ft = "go",
+    config = function()
+      vim.g.go_def_mode = 'gopls'
+      vim.g.go_info_mode = 'gopls'
+    end,
+  },
+  {"rust-lang/rust.vim", ft = "rs"},
+  {"hrsh7th/nvim-cmp", dependencies = {"hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip"}},
+  {
     "scalameta/nvim-metals",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
-      "mfussenegger/nvim-dap",
     },
-  }
-  use 'mfussenegger/nvim-dap'
-  use 'mfussenegger/nvim-dap-python'
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-  use {
-    'glacambre/firenvim',
-    run = function() vim.fn['firenvim#install'](0) end 
-  }
-end)
+    ft = { "scala", "sbt", "java" },
+    opts = function()
+      local metals_config = require("metals").bare_config()
+      metals_config.on_attach = function(client, bufnr)
+        -- your on_attach function
+      end
+  
+      return metals_config
+    end,
+    config = function(self, metals_config)
+      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = self.ft,
+        callback = function()
+          require("metals").initialize_or_attach(metals_config)
+        end,
+        group = nvim_metals_group,
+      })
+    end,
+  },
+  {"mfussenegger/nvim-dap-python", ft = "py", dependencies = {"mfussenegger/nvim-dap"}},
+  -- {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"}},
+  -- {"glacambre/firenvim", run = function() vim.fn['firenvim#install'](0) end},
+  -- "github/copilot.vim",
+  -- {
+  --   'Exafunction/codeium.vim',
+  --   event = 'BufEnter',
+  -- }
+})
 
 vim.opt.autoindent = true
 vim.opt.laststatus = 2
 
 vim.opt.number = true
 vim.nocompatible = true
-
-vim.g.indentLine_leadingSpacChar='.'
-vim.g.indentLine_leadingSpaceEnabled = '1'
-vim.g.indentLine_concealcursor = 'inc'
-vim.g.indentLine_conceallevel = 1
-vim.g.indentLine_char_list = {'|', '¦', '┆', '┊'}
-vim.g.nord_underline = 1
-vim.g.nord_italic_comments = 1
-vim.g.nord_uniform_status_lines = 1
-vim.g.nord_cursor_line_number_background = 1
-vim.g.nord_uniform_diff_background = 1
-
 
 vim.opt.number = true
 vim.opt.cursorline = true
@@ -65,10 +114,6 @@ vim.opt.listchars = {
 }
 
 vim.opt.list = true
-vim.cmd([[colorscheme nord]])
-
-vim.g.airline_powerline_fonts = 1
-vim.g.airline_theme='base16_nord'
 
 vim.api.nvim_create_autocmd({'UIEnter'}, {
   callback = function(event)
@@ -142,5 +187,6 @@ vim.opt.secure = true
 
 require 'lspconfig'
 require 'lspconfig'.pyright.setup{}
+require 'lspconfig'.gopls.setup{}
 require 'lsp-cfg'
 require 'dap-py'
