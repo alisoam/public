@@ -22,7 +22,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?digikey\.com$/,
         /^(.*\.)?mbed\.com$/,
         /^(.*\.)?microchip\.com$/,
-        /^(.*\.)?aiofilm\.(com|top|info)$/,
+        /^(.*\.)?aiofilm\.(com|top|info|world)$/,
         /^(.*\.)?v2fly\.org$/,
         /^(.*\.)?overleaf\.com$/,
         /^(.*\.)?anilist\.co$/,
@@ -33,6 +33,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?bbc\.com$/,
         /^(.*\.)?bbc\.co\.uk$/,
         /^(.*\.)?bonbast.com$/,
+        /^(.*\.)?reddit.com$/,
     ];
 
     for (const pattern of patterns)
