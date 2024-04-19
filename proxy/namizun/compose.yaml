@@ -1,0 +1,16 @@
+version: '3'
+services:
+  namizun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HTTP_PROXY
+        - HTTPS_PROXY
+    network_mode: host
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    network_mode: host
+    restart: unless-stopped
