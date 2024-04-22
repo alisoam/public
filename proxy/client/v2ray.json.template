@@ -84,14 +84,23 @@
             "rules": [
                 {
                     "type": "field",
-                    "outboundTag": "direct",
+                    "outboundTag": "proxy",
                     "ip": [
-                        "geoip:private"
+                        "1.1.1.1",
+                        "8.8.8.8"
+                    ],
+                    "domain": [
+                        "1.1.1.1",
+                        "8.8.8.8"
                     ]
                 },
                 {
                     "type": "field",
                     "outboundTag": "direct",
+                    "ip": [
+                        "geoip:private",
+                        "geoip:ir"
+                    ],
                     "domain": [
                         "domain:.ir",
                         "domain:digikala.com",
@@ -103,9 +112,6 @@
                         "domain:divarcdn.com",
                         "domain:snapp.taxi",
                         "geosite:cloudflare"
-                    ],
-                    "ip": [
-                        "geoip:ir"
                     ]
                 }
             ]
