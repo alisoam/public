@@ -8,7 +8,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?telegram\.org$/, /^(.*\.)?t\.me$/,
         /^(.*\.)?facebook\.com$/, /^(.*\.)?fbcdn\.net$/,
         /^(.*\.)?instagram\.com$/, /^(.*\.)?cdninstagram\.com$/,
-        /^(.*\.)?whatsapp\.com$/,
+        /^(.*\.)?whatsapp\.(com|net)$/,
         /^developer\.android\.com$/,
         /^(.*\.)?wordpress\.com$/, /^(.*\.)?wp\.com$/,
         /^(.*\.)?gitlab\.(com|io)$/,
