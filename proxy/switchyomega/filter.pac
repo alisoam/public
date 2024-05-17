@@ -3,7 +3,8 @@ function FindProxyForURL(url, host, scheme) {
     let patterns  = [
         /^(.*\.)?googlesyndication\.com$/, /^(.*\.)?googlevideo\.com$/, /^dl\.google\.com$/, /^account\.google\.com$/,
         /^(.*\.)?twitter\.com$/, /^(.*\.)?t\.co$/, /^(.*\.)?twimg\.com$/,
-        /^(.*\.)?youtube\.com$/, /^(.*\.)?ytimg\.com$/,
+	/^(.*\.)?x\.com$/,
+        /^(.*\.)?youtube\.com$/, /^(.*\.)?youtu\.be$/, /^(.*\.)?ytimg\.com$/,
         /^(.*\.)?telegram\.org$/, /^(.*\.)?t\.me$/,
         /^(.*\.)?facebook\.com$/, /^(.*\.)?fbcdn\.net$/,
         /^(.*\.)?instagram\.com$/, /^(.*\.)?cdninstagram\.com$/,
@@ -29,12 +30,9 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?openai\.com$/,
         /^(.*\.)?statsigapi\.net$/,
         /^(.*\.)?oaistatic\.com/,
-        /^(.*\.)?youtu\.be$/,
-        /^(.*\.)?bbc\.com$/,
-        /^(.*\.)?bbc\.co\.uk$/,
+        /^(.*\.)?bbc\.com$/, /^(.*\.)?bbc\.co\.uk$/,
         /^(.*\.)?bonbast.com$/,
-        /^(.*\.)?reddit.com$/,
-        /^(.*\.)?redd.it$/,
+        /^(.*\.)?reddit.com$/, /^(.*\.)?redd.it$/,
     ];
 
     for (const pattern of patterns)
