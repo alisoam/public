@@ -23,7 +23,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?digikey\.com$/,
         /^(.*\.)?mbed\.com$/,
         /^(.*\.)?microchip\.com$/,
-        /^(.*\.)?aiofilm\.(com|top|info|world)$/,
+        /^(.*\.)?aiofilm\.([^\.]+)$/,
         /^(.*\.)?v2fly\.org$/,
         /^(.*\.)?overleaf\.com$/,
         /^(.*\.)?anilist\.co$/,
