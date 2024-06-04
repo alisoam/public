@@ -102,7 +102,7 @@
                         "geoip:ir"
                     ],
                     "domain": [
-                        "domain:.ir",
+                        "domain:ir",
                         "domain:digikala.com",
                         "domain:aparat.com",
                         "domain:filimo.com",
