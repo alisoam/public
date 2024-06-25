@@ -32,7 +32,8 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?oaistatic\.com/,
         /^(.*\.)?bbc\.com$/, /^(.*\.)?bbc\.co\.uk$/,
         /^(.*\.)?bonbast.com$/,
-        /^(.*\.)?reddit.com$/, /^(.*\.)?redd.it$/,
+        /^(.*\.)?reddit\.com$/, /^(.*\.)?redd\.it$/,
+	/^(.*\.)?threads\.net$/,
     ];
 
     for (const pattern of patterns)
