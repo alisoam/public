@@ -26,3 +26,5 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 
 autoload -U +X compinit && compinit
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
+[[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias -- zsh)"

@@ -1,1 +1,3 @@
 . ~/.profile
+
+[[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias -- bash)"

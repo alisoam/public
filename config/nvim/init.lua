@@ -89,7 +89,7 @@ require("lazy").setup({
   {"mfussenegger/nvim-dap-python", ft = "py", dependencies = {"mfussenegger/nvim-dap"}},
   -- {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"}},
   -- {"glacambre/firenvim", run = function() vim.fn['firenvim#install'](0) end},
-  -- "github/copilot.vim",
+  "github/copilot.vim",
   -- {
   --   'Exafunction/codeium.vim',
   --   event = 'BufEnter',
@@ -188,5 +188,6 @@ vim.opt.secure = true
 require 'lspconfig'
 require 'lspconfig'.pyright.setup{}
 require 'lspconfig'.gopls.setup{}
+require 'lspconfig'.clangd.setup{}
 require 'lsp-cfg'
-require 'dap-py'
+--require 'dap-py'

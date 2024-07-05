@@ -43,7 +43,7 @@ fi
 
 if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export IDF_PATH="$HOME/esp/esp-idf"
-    export PATH="$PATH:$HOME/esp/xtensa-esp32-elf/bin:$IDF_PATH/tools"
+    export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
 export KUBE_EDITOR=nvim
