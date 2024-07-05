@@ -1,5 +1,5 @@
 /.env
 /v2ray.json
-/v2ray-server.json
+/v2ray-terminate.json
 /v2ray-bridge.json
 /run/

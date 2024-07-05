@@ -99,12 +99,12 @@
         },
         {
             "protocol": "blackhole",
-            "tag": "blackhole"
+            "tag": "block"
         }
-    ],
+    ],,
     "dns": {
         "servers": [
-             {
+            {
                 "address": "localhost",
                 "skipFallback": true,
                 "domains": [
@@ -113,59 +113,60 @@
                     "domain:aparat.com",
                     "domain:filimo.com",
                     "domain:torob.com",
-                    "domain:divar.cloud",
                     "domain:divar.dev",
+                    "domain:divarcdn.com",
+                    "domain:divar.cloud",
+                    "domain:snapp.taxi",
                     "geosite:cloudflare"
                 ]
-             },
+            },
             "https://8.8.8.8/dns-query",
             "https://1.1.1.1/dns-query"
         ]
     },
     "routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "settings": {
+       "domainStrategy": "IPIfNonMatch",
+       "settings": {
             "rules": [
                 {
                     "type": "field",
-                    "inboundTag": [
-                        "api"
-                    ],
-                    "outboundTag": "api"
-                },
+                    "outboundTag": "block",
+                    "ip": [
+                        "geoip:private"
+                    ]
+		},
                 {
                     "type": "field",
                     "outboundTag": "proxy",
                     "ip": [
                         "1.1.1.1",
                         "8.8.8.8"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "blackhole",
-                    "ip": [
-                        "geoip:private"
+                    ],
+                    "domain": [
+                        "1.1.1.1",
+                        "8.8.8.8"
                     ]
                 },
                 {
                     "type": "field",
                     "outboundTag": "direct",
+                    "ip": [
+                        "geoip:ir"
+                    ],
                     "domain": [
-                        "domain:.ir",
+                        "domain:ir",
                         "domain:digikala.com",
                         "domain:aparat.com",
                         "domain:filimo.com",
                         "domain:torob.com",
-                        "domain:divar.cloud",
                         "domain:divar.dev",
+                        "domain:divarcdn.com",
+                        "domain:divar.cloud",
+                        "domain:snapp.taxi",
                         "geosite:cloudflare"
-                    ],
-                    "ip": [
-                        "geoip:ir"
                     ]
                 }
             ]
-        }
+       }
     }
 }
