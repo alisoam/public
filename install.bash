@@ -11,13 +11,12 @@ source install_ssh_keys.bash
 
 brew install pyenv pyenv-virtualenv
 eval "$(pyenv init -)"
-pyenv install 3.11
-pyenv global 3.11
+pyenv install 3.12
+pyenv global 3.12
 
 brew install tmux
 
 brew install neovim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 git clone https://github.com/alisoam/public.git
 pushd public/config
