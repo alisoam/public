@@ -72,13 +72,9 @@ alias grp='grep -nwre'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-function ssh_helper {
-  autossh -M 0 $1 ${@:2} -t "zsh -c \"source \${HOME}/.zshrc; [ -z \\\"${TMUX}\\\" ] && [ -x \\\"\$(command -v tmux)\\\" ] && tmux new -A -s ssh || zsh\""
+function mssh {
+  autossh -M 0 $1 ${@:2}
 }
-
-alias srv="ssh_helper srv"
-alias pc="ssh_helper pc"
-alias laptop="ssh_helper laptop"
 
 function enable_proxy {
     export http_proxy=http://172.20.0.1:2081
@@ -92,16 +88,4 @@ function disable_proxy {
     export HTTP_PROXY=
     export https_proxy=
     export HTTPS_PROXY=
-}
-
-function wake_on_lan {
-    BROADCAST=255.255.255.255
-    PORT=4000
-
-    target=$(echo ${1} | sed 's/[ :-]//g')
-    sync=$(awk "BEGIN {for (i = 0; i < 6; ++i) printf \"ff\" }")
-    mac=$(awk "BEGIN {for (i = 0; i < 16; ++i) printf \"${target}\" }")
-    packet=$(echo -e "${sync}${mac}" | sed -e 's/../\\x&/g')
-
-    echo -e ${packet}  | nc -w1 -u -b $BROADCAST $PORT
 }
