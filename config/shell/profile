@@ -73,7 +73,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 function mssh {
-  autossh -M 0 $1 ${@:2}
+  autossh -M 0 $1 ${@:2} -t "tmux new -A -s ssh"
 }
 
 function enable_proxy {
