@@ -20,6 +20,7 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     config = function()
+      vim.opt.termguicolors = true
       vim.g.gruvbox_material_enable_italic = true
       vim.g.gruvbox_material_background = 'hard'
       vim.g.gruvbox_material_foreground = 'material'
