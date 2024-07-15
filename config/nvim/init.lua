@@ -16,24 +16,33 @@ vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
 
 require("lazy").setup({
   {
-    "arcticicestudio/nord-vim",
+    'sainnhe/gruvbox-material',
     lazy = false,
+    priority = 1000,
     config = function()
-      vim.g.nord_underline = 1
-      vim.g.nord_italic_comments = 1
-      vim.g.nord_uniform_status_lines = 1
-      vim.g.nord_cursor_line_number_background = 1
-      vim.g.nord_uniform_diff_background = 1
-      vim.cmd([[colorscheme nord]])
-    end,
+      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_background = 'hard'
+      vim.g.gruvbox_material_foreground = 'material'
+      vim.o.background = 'dark'
+      vim.cmd.colorscheme('gruvbox-material')
+    end
   },
+  --{
+  --  "rebelot/kanagawa.nvim",
+  --  priority = 1000, -- Ensure it loads first
+  --  lazy = false,
+  --  config = function()
+  --    vim.o.background = "dark"
+  --    vim.cmd([[colorscheme kanagawa-dragon]])
+  --  end
+  --},
   {
     "vim-airline/vim-airline",
     lazy = false,
     dependencies = {"vim-airline/vim-airline-themes"},
     config = function()
       vim.g.airline_powerline_fonts = 1
-      vim.g.airline_theme = 'base16_nord'
+      vim.g.airline_theme = 'base16'
     end,
   },
   {
