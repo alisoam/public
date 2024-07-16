@@ -52,7 +52,6 @@ class Config(abc.ABC):
     name: str
     repo: InitVar[str]
     host: InitVar[str]
-    sudo: bool = False
 
     host_path: Path = field(init=False)
     repo_path: Path = field(init=False)
@@ -189,8 +188,8 @@ all_configs: list[Config] = [
     Directory("systemd", "systemd", "~/.config/systemd/"),
     Directory("environmentd", "environmentd", "~/.config/environment.d/"),
 
-#    File("docker", "docker/daemon.json", "/etc/docker/daemon.json", True),
-#    File("docker", "docker/proxy.conf", "/etc/systemd/system/docker.service.d/proxy.conf", True),
+    File("docker", "docker/daemon.json", "/etc/docker/daemon.json"),
+    File("docker", "docker/proxy.conf", "/etc/systemd/system/docker.service.d/proxy.conf"),
 ]
 
 
