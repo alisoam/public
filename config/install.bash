@@ -1,4 +1,4 @@
 #!/bin/bash
 
-pip3 install -r requirements.txt
-python3 sync.py sync_host
+ENV=$( ( [ "command -v pyenv" ] && echo PYENV_VERSION=system pyenv exec ) || echo )
+eval $ENV python3 sync.py sync_host
