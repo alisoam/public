@@ -20,6 +20,32 @@
     ],
     "outbounds": [
         {
+            "protocol": "trojan",
+            "tag": "proxy",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "${HOST}",
+                        "port": 443,
+                        "password": "${PASSWORD}
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "wsSettings": {
+                    "headers": {
+                        "Host": "${HOST}"
+                    },
+                    "path": "/v2ray/trojan"
+                }
+            },
+            "mux": {
+                "enabled": false
+            }
+        },
+        {
             "protocol": "vless",
             "tag": "proxy",
             "settings": {

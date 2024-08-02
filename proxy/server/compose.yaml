@@ -14,6 +14,8 @@ services:
       - ./run/v2ray/log/:/opt/log/:rw
     expose:
       - 1310
+      - 1311
+      - 1312
     networks:
       - default
       - proxy

@@ -37,6 +37,26 @@
             }
         },
         {
+            "port": 1310,
+            "listen": "0.0.0.0",
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "email": "<CLIENT_NAME>",
+                        "id": "<CLIENT_USER_ID>",
+                    }
+                ],
+                "decryption": "none"
+             },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/v2ray/vmess"
+                }
+            }
+        },
+        {
             "protocol": "vless",
             "tag": "public",
             "listen": "0.0.0.0",
@@ -44,7 +64,7 @@
             "settings": {
                 "clients": [
                     {
-                        "email": "<CLIENT_NAME>",
+                        "email": "<CLIENT_EMAIL>",
                         "id": "<CLIENT_USER_ID>",
                         "level": 0
                     }
@@ -56,6 +76,26 @@
                 "security": "none",
                 "wsSettings": {
                     "path": "/v2ray/vless"
+                }
+            }
+        },
+        {
+            "port": 1312,
+            "listen": "0.0.0.0",
+            "protocol": "trojan",
+            "settings": {
+                "clients": [
+                    {
+                        "email": "<CLIENT_EMAIL>",
+                        "password": "<CLIENT_PASSWORD>"
+                    }
+                ],
+                "decryption": "none"
+             },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/v2ray/trojan"
                 }
             }
         }
