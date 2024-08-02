@@ -187,9 +187,6 @@ all_configs: list[Config] = [
 
     Directory("systemd", "systemd", "~/.config/systemd/"),
     Directory("environmentd", "environmentd", "~/.config/environment.d/"),
-
-    File("docker", "docker/daemon.json", "/etc/docker/daemon.json"),
-    File("docker", "docker/proxy.conf", "/etc/systemd/system/docker.service.d/proxy.conf"),
 ]
 
 
