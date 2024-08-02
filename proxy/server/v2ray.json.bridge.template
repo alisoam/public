@@ -101,6 +101,32 @@
         }
     ],
     "outbounds": [
+    {
+            "protocol": "trojan",
+            "tag": "proxy",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "<PROXY_HOST>",
+                        "port": 443,
+                        "password": "<PROXY_PASSWORD>"
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "wsSettings": {
+                    "headers": {
+                        "Host": "<PROXY_HOST>"
+                    },
+                    "path": "/v2ray/trojan"
+                }
+            },
+            "mux": {
+                "enabled": false
+            }
+        },
         {
             "protocol": "vless",
             "tag": "proxy",
