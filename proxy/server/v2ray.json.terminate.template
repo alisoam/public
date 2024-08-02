@@ -3,7 +3,39 @@
         "access": "error",
         "loglevel": "error"
     },
+    "stats": {},
+    "policy": {
+        "levels": {
+            "0": {
+                "statsUserUplink": true,
+                "statsUserDownlink": true
+            }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true,
+            "statsOutboundUplink": true,
+            "statsOutboundDownlink": true
+        }
+    },
+    "api": {
+        "tag": "api",
+        "services": [
+            "HandlerService",
+            "StatsService"
+        ]
+    },
     "inbounds": [
+        {
+            "protocol": "dokodemo-door",
+             "tag": "api",
+            "listen": "0.0.0.0",
+            "port": 8080,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "0.0.0.0"
+            }
+        },
         {
             "port": 1311,
             "listen": "0.0.0.0",
