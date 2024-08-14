@@ -42,7 +42,7 @@
                 },
                 "sockopt": {
                     "dialerProxy": "fragment",
-                    "tcpKeepAliveIdle": 100,
+                    "tcpKeepAliveIdle": 1,
                     "tcpNoDelay": true
                 }
             },
@@ -56,14 +56,14 @@
             "settings": {
                 "domainStrategy": "AsIs",
                 "fragment": {
-                    "packets": "tlshello",
+                    "packets": "1-5",
                     "length": "100-200",
                     "interval": "10-20"
                 }
             },
             "streamSettings": {
                 "sockopt": {
-                    "tcpKeepAliveIdle": 100,
+                    "tcpKeepAliveIdle": 1,
                     "tcpNoDelay": true
                 }
             }
