@@ -39,6 +39,11 @@
                         "Host": "${HOST}"
                     },
                     "path": "/v2ray/trojan"
+                },
+                "sockopt": {
+                    "dialerProxy": "fragment",
+                    "tcpKeepAliveIdle": 100,
+                    "tcpNoDelay": true
                 }
             },
             "mux": {
@@ -46,35 +51,21 @@
             }
         },
         {
-            "protocol": "vless",
-            "tag": "proxy",
+            "tag": "fragment",
+            "protocol": "freedom",
             "settings": {
-                "vnext": [
-                    {
-                        "address": "${HOST}",
-                        "port": 443,
-                        "users": [
-                            {
-                                "id": "${UUID},
-                                "level": 0,
-                                "encryption": "none"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "streamSettings": {
-                "network": "ws",
-                "security": "tls",
-                "wsSettings": {
-                    "headers": {
-                        "Host": "${HOST}"
-                    },
-                    "path": "/v2ray/vless"
+                "domainStrategy": "AsIs",
+                "fragment": {
+                    "packets": "tlshello",
+                    "length": "100-200",
+                    "interval": "10-20"
                 }
             },
-            "mux": {
-                "enabled": true
+            "streamSettings": {
+                "sockopt": {
+                    "tcpKeepAliveIdle": 100,
+                    "tcpNoDelay": true
+                }
             }
         },
         {
@@ -94,8 +85,8 @@
                     "domain:filimo.com",
                     "domain:torob.com",
                     "domain:divar.dev",
-                    "domain:divar.cloud",
                     "domain:divarcdn.com",
+                    "domain:divar.cloud",
                     "domain:snapp.taxi",
                     "geosite:cloudflare"
                 ]
@@ -105,8 +96,8 @@
         ]
     },
     "routing": {
-       "domainStrategy": "IPIfNonMatch",
-       "settings": {
+        "domainStrategy": "IPIfNonMatch",
+        "settings": {
             "rules": [
                 {
                     "type": "field",
@@ -134,13 +125,13 @@
                         "domain:filimo.com",
                         "domain:torob.com",
                         "domain:divar.dev",
-                        "domain:divar.cloud",
                         "domain:divarcdn.com",
+                        "domain:divar.cloud",
                         "domain:snapp.taxi",
                         "geosite:cloudflare"
                     ]
                 }
             ]
-       }
+        }
     }
 }
