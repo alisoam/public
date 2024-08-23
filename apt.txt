@@ -1,0 +1,15 @@
+git
+zsh
+zsh-antigen
+autossh
+build-essential
+curl
+python3
+python3-pip
+python3-virtualenvwrapper
+python3-colorama
+gcc
+powerline
+kitty-terminfo
+docker.io
+docker-compose-v2

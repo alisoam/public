@@ -1,0 +1,5 @@
+jq
+yq
+pyenv
+pyenv-virtualenv
+neovim
