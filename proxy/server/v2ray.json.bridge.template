@@ -26,12 +26,11 @@
         ]
     },
     "inbounds": [
-        { 
-            "protocol": "dokodemo-door",
-            "tag": "api",
+        {
             "listen": "0.0.0.0",
             "port": 8080,
             "protocol": "dokodemo-door",
+            "tag": "api",
             "settings": {
                 "address": "0.0.0.0"
             }
@@ -48,7 +47,7 @@
                     }
                 ],
                 "decryption": "none"
-             },
+            },
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
@@ -69,7 +68,7 @@
                     }
                 ],
                 "decryption": "none"
-             },
+            },
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
@@ -89,7 +88,7 @@
                     }
                 ],
                 "decryption": "none"
-             },
+            },
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
@@ -99,7 +98,7 @@
         }
     ],
     "outbounds": [
-    {
+        {
             "protocol": "trojan",
             "tag": "proxy",
             "settings": {
@@ -136,7 +135,7 @@
             "settings": {
                 "domainStrategy": "AsIs",
                 "fragment": {
-                    "packets": "tlshello",
+                    "packets": "1-5",
                     "length": "100-200",
                     "interval": "10-20"
                 }
@@ -163,16 +162,16 @@
                 "address": "localhost",
                 "skipFallback": true,
                 "domains": [
+                    "geosite:cloudflare",
                     "domain:.ir",
+                    "domain:divar.cloud",
+                    "domain:divar.dev",
+                    "domain:divarcdn.com",
                     "domain:digikala.com",
                     "domain:aparat.com",
                     "domain:filimo.com",
                     "domain:torob.com",
-                    "domain:divar.dev",
-                    "domain:divarcdn.com",
-                    "domain:divar.cloud",
-                    "domain:snapp.taxi",
-                    "geosite:cloudflare"
+                    "domain:snapp.taxi"
                 ]
             },
             "https://8.8.8.8/dns-query",
@@ -180,8 +179,8 @@
         ]
     },
     "routing": {
-       "domainStrategy": "IPIfNonMatch",
-       "settings": {
+        "domainStrategy": "IPIfNonMatch",
+        "settings": {
             "rules": [
                 {
                     "type": "field",
@@ -196,7 +195,11 @@
                     "ip": [
                         "1.1.1.1",
                         "8.8.8.8"
-                    ],
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "proxy",
                     "domain": [
                         "1.1.1.1",
                         "8.8.8.8"
@@ -206,19 +209,24 @@
                     "type": "field",
                     "outboundTag": "direct",
                     "ip": [
+                        "geoip:cloudflare",
                         "geoip:ir"
-                    ],
+                    ]
+                },
+                {
+                    "type": "field",
+                    "outboundTag": "direct",
                     "domain": [
-                        "domain:ir",
+                        "geosite:cloudflare",
+                        "domain:.ir",
+                        "domain:divar.cloud",
+                        "domain:divar.dev",
+                        "domain:divarcdn.com",
                         "domain:digikala.com",
                         "domain:aparat.com",
                         "domain:filimo.com",
                         "domain:torob.com",
-                        "domain:divar.dev",
-                        "domain:divarcdn.com",
-                        "domain:divar.cloud",
-                        "domain:snapp.taxi",
-                        "geosite:cloudflare"
+                        "domain:snapp.taxi"
                     ]
                 }
             ]
