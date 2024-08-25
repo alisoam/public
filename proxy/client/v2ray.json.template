@@ -120,7 +120,6 @@
                     "outboundTag": "direct",
                     "ip": [
                         "geoip:private",
-                        "geoip:cloudflare",
                         "geoip:ir"
                     ]
                 },
@@ -128,7 +127,6 @@
                     "type": "field",
                     "outboundTag": "direct",
                     "domain": [
-                        "geosite:cloudflare",
                         "domain:.ir",
                         "domain:divar.cloud",
                         "domain:divar.dev",
