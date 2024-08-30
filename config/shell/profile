@@ -2,10 +2,6 @@ if [ -e "$HOME/.secrets" ]; then
     source "$HOME/.secrets"
 fi
 
-if [ -e "$HOME/.locals" ]; then
-    source "$HOME/.locals"
-fi
-
 [ -x "$(command -v setxkbmap)" ] && setxkbmap -option caps:escape
 
 if [ -d "$HOME/bin" ] ; then
@@ -89,3 +85,7 @@ function disable_proxy {
     export https_proxy=
     export HTTPS_PROXY=
 }
+
+if [ -e "$HOME/.locals" ]; then
+    source "$HOME/.locals"
+fi
