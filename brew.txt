@@ -3,3 +3,4 @@ yq
 pyenv
 pyenv-virtualenv
 neovim
+direnv

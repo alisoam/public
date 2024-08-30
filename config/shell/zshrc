@@ -1,6 +1,4 @@
-emulate sh -c '. ~/.profile'
-
-[[ $+commands[antigen] ]] || (echo installing antigen && sudo apt install zsh-antigen)
+. ~/.profile
 
 source /usr/share/zsh-antigen/antigen.zsh
 
@@ -28,3 +26,5 @@ autoload -U +X compinit && compinit
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
 [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias -- zsh)"
+
+[[ -x "$(command -v direnv)" ]] && eval "$(direnv hook zsh)"
