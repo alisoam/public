@@ -1,3 +1,5 @@
+unattended-upgrades
+apt-listchanges
 git
 zsh
 zsh-antigen
