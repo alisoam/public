@@ -2,4 +2,4 @@
 
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y <packages.txt
+sudo apt install -y <apt.txt
