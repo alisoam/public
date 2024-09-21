@@ -1,2 +1,4 @@
 /.python-version
 /.metals/
+/.env
+/.envrc

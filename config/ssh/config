@@ -1,7 +1,7 @@
 ExitOnForwardFailure yes
 ServerAliveInterval 1
-ServerAliveCountMax 3
-ConnectTimeout 10
+ServerAliveCountMax 5
+ConnectTimeout 20
 
 Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
