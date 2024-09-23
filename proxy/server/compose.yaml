@@ -20,6 +20,26 @@ services:
       - default
       - proxy
 
+  wstunnel:
+    image: ghcr.io/erebe/wstunnel:v10.1.1
+    entrypoint:
+      - /bin/bash
+      - -c
+    command:
+      - ./wstunnel server
+          --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET}
+          --log-lvl ERROR
+          ws://[::]:8000
+    environment:
+      - AUTH_SECRET
+    expose:
+      - 8000
+      - 2080
+    networks:
+      - default
+      - proxy
+    restart: always
+
 networks:
   proxy:
     name: reverse-proxy

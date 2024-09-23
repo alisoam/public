@@ -99,52 +99,18 @@
     ],
     "outbounds": [
         {
-            "protocol": "trojan",
+            "protocol": "socks",
             "tag": "proxy",
-            "settings": {
+            "settings":{
                 "servers": [
                     {
-                        "address": "<PROXY_HOST>",
-                        "port": 443,
-                        "password": "<PROXY_PASSWORD>"
+                        "address": "wstunnel",
+                        "port": 1080
                     }
                 ]
             },
-            "streamSettings": {
-                "network": "ws",
-                "security": "tls",
-                "wsSettings": {
-                    "headers": {
-                        "Host": "<PROXY_HOST>"
-                    },
-                    "path": "/v2ray/trojan"
-                },
-                "sockopt": {
-                    "dialerProxy": "fragment",
-                    "tcpKeepAliveIdle": 1,
-                    "tcpNoDelay": true
-                }
-            },
             "mux": {
                 "enabled": false
-            }
-        },
-        {
-            "tag": "fragment",
-            "protocol": "freedom",
-            "settings": {
-                "domainStrategy": "AsIs",
-                "fragment": {
-                    "packets": "1-5",
-                    "length": "100-200",
-                    "interval": "10-20"
-                }
-            },
-            "streamSettings": {
-                "sockopt": {
-                    "tcpKeepAliveIdle": 1,
-                    "tcpNoDelay": true
-                }
             }
         },
         {
