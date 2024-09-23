@@ -21,3 +21,4 @@ services:
     restart: always
     environment:
       PROXY_PORT: 2080
+    restart: always
