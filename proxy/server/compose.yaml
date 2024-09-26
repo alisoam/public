@@ -26,10 +26,13 @@ services:
       - /bin/bash
       - -c
     command:
-      - ./wstunnel server
-          --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET}
-          --log-lvl ERROR
-          ws://[::]:8000
+      - >
+        ./wstunnel server \
+          --websocket-ping-frequency-sec 15 \
+          --restrict-to 0.0.0.0:2080 \
+          --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
+          --log-lvl ERROR \
+          ws://0.0.0.0:8000
     environment:
       - AUTH_SECRET
     expose:

@@ -20,21 +20,16 @@
     },
     "api": {
         "tag": "api",
+        "listen": "0.0.0.0:8080",
         "services": [
             "HandlerService",
-            "StatsService"
+            "RoutingService",
+            "LoggerService",
+            "StatsService",
+            "ReflectionService"
         ]
     },
     "inbounds": [
-        {
-            "listen": "0.0.0.0",
-            "port": 8080,
-            "protocol": "dokodemo-door",
-            "tag": "api",
-            "settings": {
-                "address": "0.0.0.0"
-            }
-        },
         {
             "listen": "0.0.0.0",
             "port": 1310,
@@ -44,6 +39,7 @@
                     {
                         "email": "<CLIENT_NAME>",
                         "id": "<CLIENT_USER_ID>",
+                        "level": 0
                     }
                 ],
                 "decryption": "none"
@@ -84,7 +80,8 @@
                 "clients": [
                     {
                         "email": "<CLIENT_EMAIL>",
-                        "password": "<CLIENT_PASSWORD>"
+                        "password": "<CLIENT_PASSWORD>",
+                        "level": 0
                     }
                 ],
                 "decryption": "none"
@@ -105,13 +102,23 @@
                 "servers": [
                     {
                         "address": "wstunnel",
-                        "port": 1080
+                        "port": 2080
                     }
-                ]
+                ],
+                "streamSettings": {
+                    "network": "tcp",
+                    "security": "none",
+                    "tcpSettings": {},
+                    "sockopt": {
+                        "tcpKeepAliveInterval": 5,
+                        "tcpKeepAliveIdle": 2,
+                        "tcpFastOpen": true,
+                        "tcpNoDelay": true,
+                        "tcpUserTimeout": 300
+                    }
+                }
             },
-            "mux": {
-                "enabled": false
-            }
+            "mux": {}
         },
         {
             "protocol": "freedom",
