@@ -7,7 +7,7 @@ services:
     command:
       - >
         ./wstunnel client \
-           --connection-min-idle 100 \
+           --connection-min-idle 300 \
            --websocket-ping-frequency-sec 10 \
            --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
            --remote-to-local 'socks5://0.0.0.0:2080' \
