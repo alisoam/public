@@ -5,21 +5,15 @@ services:
       - /bin/bash
       - -c
     command:
-      - ./wstunnel client
-          --remote-to-local tcp://[::]:2080:proxy:2080
-          --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET}
-          --websocket-ping-frequency-sec 1
-          --connection-min-idle 10
-          --log-lvl ERROR
-          $${SERVER}
+      - >
+        ./wstunnel client \
+           --connection-min-idle 100 \
+           --websocket-ping-frequency-sec 10 \
+           --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
+           --remote-to-local 'socks5://0.0.0.0:2080' \
+           --log-lvl ERROR \
+           $${SERVER}
     environment:
       - SERVER
       - AUTH_SECRET
-    restart: always
-
-  proxy:
-    image: serjs/go-socks5-proxy:v0.0.3
-    restart: always
-    environment:
-      PROXY_PORT: 2080
     restart: always
