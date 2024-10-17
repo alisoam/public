@@ -17,7 +17,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?myanimelist\.net$/,
         /^(.*\.)?zoho\.(com|in|au|eu|jp)$/, /^(.*\.)?zohowebstatic\.com/, /^(.*\.)?.zohopublic\.com/, /^(.*\.)?zohocdn\.com/,
         /^1\.1\.1\.1$/,
-        /^(id|hub)\.docker\.com$/,
+        /^(.*\.)?docker\.com$/,
         /^(.*\.)?jadi\.net$/,
         /^(.*\.)?autodesk\.com$/,
         /^(.*\.)?digikey\.com$/,
