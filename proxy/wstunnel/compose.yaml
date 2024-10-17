@@ -1,6 +1,6 @@
 services:
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.1.1
+    image: ghcr.io/erebe/wstunnel:v10.1.5
     entrypoint:
       - /bin/bash
       - -c
@@ -8,9 +8,11 @@ services:
       - >
         ./wstunnel client \
            --connection-min-idle 50 \
-           --websocket-ping-frequency-sec 15 \
+           --websocket-ping-frequency-sec 5 \
            --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
-           --remote-to-local 'socks5://0.0.0.0:2080' \
+           --dns-resolver dns+https://1.1.1.1?sni=1.1.1.1 \
+           --dns-resolver-prefer-ipv4 \
+           --remote-to-local 'socks5://[::]:2080' \
            --log-lvl ERROR \
            $${SERVER}
     environment:
