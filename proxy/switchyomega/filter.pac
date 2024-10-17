@@ -39,6 +39,7 @@ function FindProxyForURL(url, host, scheme) {
 	/^(.*\.)?spotifycdn\.com$/,
 	/^(.*\.)?notebooklm.google(\.com)?$/,
 	/^(.*\.)?gemini.google(\.com)?$/,
+	/^(.*\.)?fandom(\.com)?$/,
     ];
 
     for (const pattern of patterns)
