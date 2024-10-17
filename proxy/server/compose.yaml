@@ -1,7 +1,6 @@
-version: '3'
 services:
   v2ray:
-    image: ghcr.io/xtls/xray-core:1.8.23-ls
+    image: ghcr.io/xtls/xray-core:24.10.16-ls
     command:
       - run
       - -config
@@ -21,18 +20,20 @@ services:
       - proxy
 
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.1.1
+    image: ghcr.io/erebe/wstunnel:v10.1.5
     entrypoint:
       - /bin/bash
       - -c
     command:
       - >
         ./wstunnel server \
-          --websocket-ping-frequency-sec 15 \
-          --restrict-to 0.0.0.0:2080 \
+          --websocket-ping-frequency-sec 5 \
+          --dns-resolver dns://8.8.8.8 \
+          --dns-resolver-prefer-ipv4 \
+          --restrict-to [::]:2080 \
           --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
           --log-lvl ERROR \
-          ws://0.0.0.0:8000
+          ws://[::]:8000
     environment:
       - AUTH_SECRET
     expose:
