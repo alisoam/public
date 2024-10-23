@@ -27,12 +27,12 @@ services:
     command:
       - >
         ./wstunnel server \
+          --log-lvl ERROR \
           --websocket-ping-frequency-sec 5 \
           --dns-resolver dns://8.8.8.8 \
           --dns-resolver-prefer-ipv4 \
           --restrict-to [::]:2080 \
           --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
-          --log-lvl ERROR \
           ws://[::]:8000
     environment:
       - AUTH_SECRET
