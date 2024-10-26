@@ -2,8 +2,6 @@ if [ -e "$HOME/.secrets" ]; then
     source "$HOME/.secrets"
 fi
 
-[ -x "$(command -v setxkbmap)" ] && setxkbmap -option caps:escape
-
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi

@@ -1,6 +1,7 @@
 unattended-upgrades
 apt-listchanges
 git
+tmux
 zsh
 zsh-antigen
 autossh
