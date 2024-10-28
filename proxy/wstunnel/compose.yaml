@@ -12,7 +12,6 @@ services:
            --websocket-ping-frequency-sec 5 \
            --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
            --dns-resolver dns+https://1.1.1.1?sni=1.1.1.1 \
-           --dns-resolver-prefer-ipv4 \
            --remote-to-local 'socks5://[::]:2080' \
            $${SERVER}
     environment:
