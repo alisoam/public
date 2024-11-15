@@ -8,13 +8,24 @@ services:
       - >
         ./wstunnel client \
            --log-lvl ERROR \
-           --connection-min-idle 1 \
-           --websocket-ping-frequency-sec 5 \
+           --connection-min-idle 100 \
+           --websocket-ping-frequency-sec 10 \
            --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
-           --dns-resolver dns+https://1.1.1.1?sni=1.1.1.1 \
-           --remote-to-local 'socks5://[::]:2080' \
+           --remote-to-local 'tcp://[::]:2080:proxy:2080' \
            $${SERVER}
     environment:
       - SERVER
       - AUTH_SECRET
     restart: always
+
+  proxy:
+    image: serjs/go-socks5-proxy
+    environment:
+      PROXY_PORT: 2080
+    expose:
+      - 2080
+    restart: always
+
+networks:
+  default:
+    enable_ipv6: true
