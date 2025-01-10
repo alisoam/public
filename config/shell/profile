@@ -66,8 +66,17 @@ alias grp='grep -nwre'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+if [ -n "$TMUX" ]; then
+  # only for ssh sessions
+  session_name=$(tmux display-message -p "#S")
+  if [ "${session_name#"ssh-"}" != "$session_name" ]; then
+    # Set a trap for SIGHUP to update SSH_AUTH_SOCK
+    trap 'export SSH_AUTH_SOCK=$(tmux show-environment SSH_AUTH_SOCK | cut -d= -f2-)' HUP
+  fi
+fi
+
 function mssh {
-  autossh -M 0 $1 ${@:2} -t "tmux new -A -s ssh"
+  autossh -M 0 $1 ${@:2} -t "tmux new -A -s ssh-${HOST}"
 }
 
 function enable_proxy {
