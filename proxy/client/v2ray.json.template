@@ -79,8 +79,9 @@
                 "address": "localhost",
                 "skipFallback": true,
                 "domains": [
-                    "geosite:cloudflare",
                     "domain:.ir",
+                    "regexp:^\\.+\\\\.ir$",
+                    "geosite:category-ir",
                     "domain:divar.cloud",
                     "domain:divar.dev",
                     "domain:divarcdn.com",
@@ -128,6 +129,8 @@
                     "outboundTag": "direct",
                     "domain": [
                         "domain:.ir",
+                        "regexp:^\\.+\\\\.ir$",
+                        "geosite:category-ir",
                         "domain:divar.cloud",
                         "domain:divar.dev",
                         "domain:divarcdn.com",

@@ -1,6 +1,6 @@
 services:
   v2ray:
-    image: ghcr.io/xtls/xray-core:24.10.16-ls
+    image: ghcr.io/xtls/xray-core:24.12.18-ls
     command:
       - run
       - -config
