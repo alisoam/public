@@ -32,48 +32,6 @@
     "inbounds": [
         {
             "listen": "0.0.0.0",
-            "port": 1310,
-            "protocol": "vmess",
-            "settings": {
-                "clients": [
-                    {
-                        "email": "<CLIENT_NAME>",
-                        "id": "<CLIENT_USER_ID>",
-                        "level": 0
-                    }
-                ],
-                "decryption": "none"
-            },
-            "streamSettings": {
-                "network": "ws",
-                "wsSettings": {
-                    "path": "/v2ray/vmess"
-                }
-            }
-        },
-        {
-            "listen": "0.0.0.0",
-            "port": 1311,
-            "protocol": "vless",
-            "settings": {
-                "clients": [
-                    {
-                        "email": "<CLIENT_EMAIL>",
-                        "id": "<CLIENT_USER_ID>",
-                        "level": 0
-                    }
-                ],
-                "decryption": "none"
-            },
-            "streamSettings": {
-                "network": "ws",
-                "wsSettings": {
-                    "path": "/v2ray/vless"
-                }
-            }
-        },
-        {
-            "listen": "0.0.0.0",
             "port": 1312,
             "protocol": "trojan",
             "settings": {
@@ -135,7 +93,6 @@
                 "address": "localhost",
                 "skipFallback": true,
                 "domains": [
-                    "geosite:cloudflare",
                     "domain:.ir",
                     "domain:divar.cloud",
                     "domain:divar.dev",

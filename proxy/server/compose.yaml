@@ -1,6 +1,6 @@
 services:
   v2ray:
-    image: ghcr.io/xtls/xray-core:24.10.16-ls
+    image: ghcr.io/xtls/xray-core:24.12.18-ls
     command:
       - run
       - -config
@@ -12,15 +12,14 @@ services:
       - ./v2ray.json:/opt/v2ray/config.json:ro
       - ./run/v2ray/log/:/opt/log/:rw
     expose:
-      - 1310
-      - 1311
       - 1312
     networks:
       - default
+      - internal
       - proxy
 
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.1.5
+    image: ghcr.io/erebe/wstunnel:v10.1.8
     entrypoint:
       - /bin/bash
       - -c
@@ -28,7 +27,7 @@ services:
       - >
         ./wstunnel server \
           --log-lvl ERROR \
-          --websocket-ping-frequency-sec 5 \
+          --websocket-ping-frequency-sec 30 \
           --dns-resolver dns://8.8.8.8 \
           --dns-resolver-prefer-ipv4 \
           --restrict-to [::]:2080 \
@@ -40,11 +39,14 @@ services:
       - 8000
       - 2080
     networks:
-      - default
+      - internal
       - proxy
     restart: always
 
 networks:
+  internal:
+    name: internal
+    internal: true
   proxy:
     name: reverse-proxy
     external: true
