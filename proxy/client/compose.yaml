@@ -1,4 +1,3 @@
-version: '3'
 services:
   v2ray:
     image: ghcr.io/xtls/xray-core:24.10.16-ls
