@@ -79,8 +79,9 @@
                 "address": "localhost",
                 "skipFallback": true,
                 "domains": [
-                    "domain:.ir",
-                    "regexp:^\\.+\\\\.ir$",
+                    "geosite:cloudflare",
+                    "domain:ir",
+                    "regexp:^.+\\.ir$",
                     "geosite:category-ir",
                     "domain:divar.cloud",
                     "domain:divar.dev",
@@ -97,51 +98,50 @@
         ]
     },
     "routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "settings": {
-            "rules": [
-                {
-                    "type": "field",
-                    "outboundTag": "proxy",
-                    "ip": [
-                        "1.1.1.1",
-                        "8.8.8.8"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "proxy",
-                    "domain": [
-                        "1.1.1.1",
-                        "8.8.8.8"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "direct",
-                    "ip": [
-                        "geoip:private",
-                        "geoip:ir"
-                    ]
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "direct",
-                    "domain": [
-                        "domain:.ir",
-                        "regexp:^\\.+\\\\.ir$",
-                        "geosite:category-ir",
-                        "domain:divar.cloud",
-                        "domain:divar.dev",
-                        "domain:divarcdn.com",
-                        "domain:digikala.com",
-                        "domain:aparat.com",
-                        "domain:filimo.com",
-                        "domain:torob.com",
-                        "domain:snapp.taxi"
-                    ]
-                }
-            ]
-        }
+        "domainStrategy": "IPOnDemand",
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "proxy",
+                "domain": [
+                    "1.1.1.1",
+                    "8.8.8.8"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "proxy",
+                "ip": [
+                    "1.1.1.1",
+                    "8.8.8.8"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "domain": [
+                    "geosite:cloudflare",
+                    "domain:ir",
+                    "regexp:^.+\\.ir$",
+                    "geosite:category-ir",
+                    "domain:divar.cloud",
+                    "domain:divar.dev",
+                    "domain:divarcdn.com",
+                    "domain:digikala.com",
+                    "domain:aparat.com",
+                    "domain:filimo.com",
+                    "domain:torob.com",
+                    "domain:snapp.taxi"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "ip": [
+                    "geoip:private",
+                    "geoip:ir"
+                ]
+            }
+        ]
     }
 }
