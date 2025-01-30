@@ -184,9 +184,6 @@ all_configs: list[Config] = [
     File("i3", "i3/i3status", "~/.config/i3status/config"),
 
     Directory("kitty", "kitty", "~/.config/kitty"),
-
-    Directory("systemd", "systemd", "~/.config/systemd/"),
-    Directory("environmentd", "environmentd", "~/.config/environment.d/"),
 ]
 
 
