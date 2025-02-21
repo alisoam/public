@@ -8,40 +8,22 @@ Host *.gitlab.com gitlab.com
 
 HOST *.sosori.ir *.sosoro.ir
     ForwardAgent yes
-    AddKeysToAgent  yes
+    AddKeysToAgent yes
 
 Host srv
     ForwardAgent yes
-    AddKeysToAgent  yes
+    AddKeysToAgent yes
     HostName srv.sosori.ir
     User ali
 
 Host pc
     ForwardAgent yes
-    AddKeysToAgent  yes
+    AddKeysToAgent yes
     HostName gw.sosori.ir
     Port 2201
 
 Host laptop
     ForwardAgent yes
-    AddKeysToAgent  yes
+    AddKeysToAgent yes
     HostName gw.sosori.ir
-    Port 2202
-
-Host srvo
-    ForwardAgent yes
-    AddKeysToAgent  yes
-    HostName srv.sosoro.ir
-    User ali
-
-Host pco
-    ForwardAgent yes
-    AddKeysToAgent  yes
-    HostName gw.sosoro.ir
-    Port 2201
-
-Host laptopo
-    ForwardAgent yes
-    AddKeysToAgent  yes
-    HostName gw.sosoro.ir
     Port 2202

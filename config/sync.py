@@ -167,23 +167,19 @@ class Directory(Config):
 
 
 all_configs: list[Config] = [
-    File("tmux", "tmux/tmux.conf", "~/.tmux.conf"),
-
     File("shell", "shell/zshrc", "~/.zshrc"),
     File("shell", "shell/bashrc", "~/.bashrc"),
     File("shell", "shell/profile", "~/.profile"),
 
     Directory("ssh", "ssh", "~/.ssh"),
 
+    Directory("tmux", "tmux", "~/.config/tmux"),
     Directory("nvim", "nvim", "~/.config/nvim"),
-
-    File("git", "git/gitconfig", "~/.gitconfig"),
-    File("git", "git/gitignore", "~/.gitignore"),
+    Directory("git", "git", "~/.config/git"),
+    Directory("kitty", "kitty", "~/.config/kitty"),
 
     File("i3", "i3/i3", "~/.config/i3/config"),
     File("i3", "i3/i3status", "~/.config/i3status/config"),
-
-    Directory("kitty", "kitty", "~/.config/kitty"),
 ]
 
 
