@@ -39,6 +39,10 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
+if [ -n "$( command -v thefuck )" ]; then
+    eval $(thefuck --alias)
+fi
+
 export KUBE_EDITOR=nvim
 
 alias gdb=gdb-multiarch
@@ -61,6 +65,7 @@ alias kgr='kubectl get rs'
 alias kgs='kubectl get sts'
 alias kex='kubectl exec -it'
 alias grp='grep -nwre'
+alias f='fuck --yeah'
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
