@@ -1,6 +1,6 @@
 services:
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.1.8
+    image: ghcr.io/erebe/wstunnel:v10.1.10
     entrypoint:
       - /bin/bash
       - -c
