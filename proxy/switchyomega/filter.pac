@@ -51,6 +51,8 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?bbc\.com$/,
         /^(.*\.)?bbc\.co\.uk$/,
         /^(.*\.)?bonbast.com$/,
+        /^(.*\.)?bon-bast.com$/,
+        /^(.*\.)?navasan\.net/,
         /^(.*\.)?reddit\.com$/,
         /^(.*\.)?redd\.it$/,
         /^(.*\.)?threads\.net$/,
@@ -58,6 +60,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?spotify\.com$/,
         /^(.*\.)?spotifycdn\.com$/,
         /^(.*\.)?fandom(\.com)?$/,
+        /^(.*\.)?telegraph\.co\.uk/,
     ];
 
     for (const pattern of patterns)
