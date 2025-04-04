@@ -40,7 +40,7 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
 fi
 
 if [ -n "$( command -v thefuck )" ]; then
-    eval $(thefuck --alias)
+    eval "$(thefuck --alias)"
 fi
 
 export KUBE_EDITOR=nvim

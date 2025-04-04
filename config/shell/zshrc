@@ -28,3 +28,5 @@ autoload -U +X compinit && compinit
 [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias -- zsh)"
 
 [[ -x "$(command -v direnv)" ]] && eval "$(direnv hook zsh)"
+
+[[ -x "$(command -v uv)" ]] && eval "$(uv generate-shell-completion zsh)"
