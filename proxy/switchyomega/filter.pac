@@ -36,6 +36,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?.zohopublic\.com/,
         /^(.*\.)?zohocdn\.com/,
         /^(.*\.)?docker\.com$/,
+        /^(.*\.)?dockerstatic\.com$/,
         /^(.*\.)?jadi\.net$/,
         /^(.*\.)?autodesk\.com$/,
         /^(.*\.)?digikey\.com$/,
