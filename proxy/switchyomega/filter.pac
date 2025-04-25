@@ -47,6 +47,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?overleaf\.com$/,
         /^(.*\.)?anilist\.co$/,
         /^(.*\.)?openai\.com$/,
+        /^(.*\.)?chatgpt\.com$/,
         /^(.*\.)?statsigapi\.net$/,
         /^(.*\.)?oaistatic\.com/,
         /^(.*\.)?bbc\.com$/,
