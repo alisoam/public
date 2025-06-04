@@ -1,6 +1,6 @@
 services:
   v2ray:
-    image: ghcr.io/xtls/xray-core:25.3.6-ls
+    image: ghcr.io/xtls/xray-core:25.5.16-ls
     command:
       - run
       - -config
@@ -18,7 +18,7 @@ services:
       - internal
 
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.1.11
+    image: ghcr.io/erebe/wstunnel:v10.4.2
     entrypoint:
       - /bin/bash
       - -c
@@ -26,10 +26,10 @@ services:
       - >
         ./wstunnel server \
           --log-lvl ERROR \
-          --websocket-ping-frequency-sec 30 \
+          --websocket-ping-frequency 30s \
           --dns-resolver dns://8.8.8.8 \
           --dns-resolver-prefer-ipv4 \
-          --restrict-to [::]:2080 \
+          --remote-to-local-server-idle-timeout 5s \
           --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
           ws://[::]:8000
     environment:
