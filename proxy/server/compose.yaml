@@ -18,15 +18,15 @@ services:
       - internal
 
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.4.2
+    image: ghcr.io/erebe/wstunnel:v10.4.4
     entrypoint:
       - /bin/bash
       - -c
     command:
       - >
         ./wstunnel server \
-          --log-lvl ERROR \
-          --websocket-ping-frequency 30s \
+          --log-lvl WARN \
+          --websocket-ping-frequency 1s \
           --dns-resolver dns://8.8.8.8 \
           --dns-resolver-prefer-ipv4 \
           --remote-to-local-server-idle-timeout 5s \
