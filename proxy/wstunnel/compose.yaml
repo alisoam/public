@@ -1,6 +1,6 @@
 services:
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.4.3
+    image: ghcr.io/erebe/wstunnel:v10.4.4
     entrypoint:
       - /bin/bash
       - -c
@@ -9,8 +9,9 @@ services:
         ./wstunnel client \
           --log-lvl ERROR \
           --connection-retry-max-backoff 1s \
+          --reverse-tunnel-connection-retry-max-backoff 1s \
           --connection-min-idle 5 \
-          --websocket-ping-frequency 30s \
+          --websocket-ping-frequency 1s \
           --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
           --remote-to-local 'tcp://[::]:2080:proxy:2080?timeout_sec=0' \
           $${SERVER}
