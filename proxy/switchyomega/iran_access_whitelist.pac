@@ -10,6 +10,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?zoomg\.ir$/,
         /^(.*\.)?adliran\.ir$/,
         /^(.*\.)?divar\.(ir|cloud|dev)$/,
+        /^(.*\.)?divarcdn\.com$/,
 	/^(.*\.)?bale\.(ai|sh)$/,
     ];
 
