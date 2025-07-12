@@ -7,17 +7,39 @@ services:
     command:
       - >
         ./wstunnel client \
-          --log-lvl ERROR \
+          --log-lvl WARN \
           --connection-retry-max-backoff 1s \
           --reverse-tunnel-connection-retry-max-backoff 1s \
           --connection-min-idle 5 \
           --websocket-ping-frequency 1s \
           --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
           --remote-to-local 'tcp://[::]:2080:proxy:2080?timeout_sec=0' \
-          $${SERVER}
+          --http-headers "Host: $${SERVER}" \
+          --tls-sni-override=$${SERVER} \
+          wss://server-forwarder:4443
     environment:
       - SERVER
       - AUTH_SECRET
+    user: "1000:1000"
+    networks:
+      - internal
+    restart: always
+
+  server-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - "socat -t 10 TCP-LISTEN:4443,fork,keepalive,keepidle=3,keepintvl=3,keepcnt=3 TCP:$${SERVER}:443,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=5,interval=1"
+    environment:
+      - SERVER
+    expose:
+      - 4443
+    user: "1000:1000"
+    networks:
+      - default
+      - internal
     restart: always
 
   proxy:
@@ -26,8 +48,15 @@ services:
       PROXY_PORT: 2080
     expose:
       - 2080
+    user: "1000:1000"
+    networks:
+      - internal
+      - default
     restart: always
 
 networks:
   default:
+    enable_ipv6: true
+  internal:
+    internal: true
     enable_ipv6: true
