@@ -16,6 +16,7 @@ services:
           --remote-to-local 'tcp://[::]:2080:proxy:2080?timeout_sec=0' \
           --http-headers "Host: $${SERVER}" \
           --tls-sni-override=$${SERVER} \
+          --tls-verify-certificate \
           wss://server-forwarder:4443
     environment:
       - SERVER
