@@ -1,8 +1,6 @@
-ssh-audit
 jq
 yq
 neovim
 direnv
 uv
 thefuck
-
