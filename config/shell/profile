@@ -14,12 +14,6 @@ if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-if [ -n "$( command -v pyenv )" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    eval "$( pyenv init - )" >/dev/null 2>&1
-    eval "$( pyenv virtualenv-init - )" >/dev/null 2>&1
-fi
-
 if [ -d "$HOME/.local/share/coursier/bin" ] ; then
     PATH="$PATH:$HOME/.local/share/coursier/bin"
 fi
