@@ -114,13 +114,17 @@ require("lazy").setup({
       -- auto_suggestions_provider = "copilot",
       -- cursor_applying_provider = "copilot",
       provider = "openai",
-      openai = {
-        endpoint = os.getenv("OPENAI_API_BASE"),
-        model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        timeout = 10000, -- timeout in milliseconds
-        temperature = 0, -- adjust if needed
-        max_tokens = 4096,
-        -- reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
+      providers ={
+        openai = {
+          endpoint = os.getenv("OPENAI_API_BASE"),
+          model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+          timeout = 10000, -- timeout in milliseconds
+          max_tokens = 4096,
+          -- reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
+          extra_request_body = {
+            temperature = 0, -- adjust if needed
+          },
+        }
       }
     },
     build = "make",
