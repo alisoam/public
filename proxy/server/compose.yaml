@@ -1,3 +1,4 @@
+name: proxy-server
 services:
   v2ray:
     image: ghcr.io/xtls/xray-core:25.5.16-ls
