@@ -10,12 +10,39 @@ services:
       - v2ray.vmess.aead.forced=false
     volumes:
       - ./v2ray.json:/opt/v2ray/config.json:ro
-      - ./run/v2ray/log/:/opt/log/:rw
     expose:
       - 1312
     networks:
+      - internal
+
+  dns-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - "socat -t 10 UDP-LISTEN:5553,fork UDP:8.8.8.8:53,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=5,interval=1"
+    environment:
+      - SERVER
+    expose:
+      - 4443
+    user: "1000:1000"
+    networks:
       - default
       - internal
+    restart: always
+
+  direct-proxy:
+    image: serjs/go-socks5-proxy
+    environment:
+      PROXY_PORT: 2080
+    expose:
+      - 2080
+    user: "1000:1000"
+    networks:
+      - internal
+      - default
+    restart: always
 
   wstunnel:
     image: ghcr.io/erebe/wstunnel:v10.4.4
@@ -37,6 +64,7 @@ services:
     expose:
       - 8000
       - 2080
+    user: "1000:1000"
     networks:
       - internal
     restart: always
@@ -54,7 +82,6 @@ services:
 
 networks:
   internal:
-    name: internal
     internal: true
   proxy:
     name: reverse-proxy

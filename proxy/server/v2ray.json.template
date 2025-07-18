@@ -54,8 +54,8 @@
     ],
     "outbounds": [
         {
-            "protocol": "socks",
             "tag": "proxy",
+            "protocol": "socks",
             "settings":{
                 "servers": [
                     {
@@ -79,18 +79,40 @@
             "mux": {}
         },
         {
-            "protocol": "freedom",
-            "tag": "direct"
+            "tag": "direct",
+            "protocol": "socks",
+            "settings":{
+                "servers": [
+                    {
+                        "address": "direct-proxy",
+                        "port": 2080
+                    }
+                ],
+                "streamSettings": {
+                    "network": "tcp",
+                    "security": "none",
+                    "tcpSettings": {},
+                    "sockopt": {
+                        "tcpKeepAliveInterval": 5,
+                        "tcpKeepAliveIdle": 2,
+                        "tcpFastOpen": true,
+                        "tcpNoDelay": true,
+                        "tcpUserTimeout": 300
+                    }
+                }
+            },
+            "mux": {}
         },
         {
-            "protocol": "blackhole",
-            "tag": "block"
+            "tag": "block",
+            "protocol": "blackhole"
         }
     ],
     "dns": {
         "servers": [
             {
-                "address": "localhost",
+                "address": "dns-forwarder",
+                "port": 5553,
                 "skipFallback": true,
                 "domains": [
                     "geosite:cloudflare",
