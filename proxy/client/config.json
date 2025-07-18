@@ -25,9 +25,9 @@
             "settings": {
                 "servers": [
                     {
-                        "address": "${HOST}",
-                        "port": 443,
-                        "password": "${PASSWORD}
+                        "address": "server-forwarder",
+                        "port": 4443,
+                        "password": "${PASSWORD}"
                     }
                 ]
             },
@@ -36,10 +36,14 @@
                 "security": "tls",
                 "wsSettings": {
                     "headers": {
-                        "Host": "${HOST}"
+                        "Host": "${SERVER}"
                     },
                     "path": "/v2ray/trojan"
                 },
+                "tlsSettings": {
+		    "serverName": "${SERVER}",
+		    "allowInsecure": false
+		},
                 "sockopt": {
                     "dialerProxy": "fragment",
                     "tcpKeepAliveIdle": 1,
@@ -69,14 +73,16 @@
             }
         },
         {
-            "protocol": "freedom",
-            "tag": "direct"
+            "tag": "direct",
+            "protocol": "freedom"
+            
         }
     ],
     "dns": {
         "servers": [
             {
-                "address": "localhost",
+                "address": "dns-forwarer",
+                "port": 5553,
                 "skipFallback": true,
                 "domains": [
                     "geosite:cloudflare",

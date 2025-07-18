@@ -1,14 +1,152 @@
+name: proxy-client
 services:
   v2ray:
     image: ghcr.io/xtls/xray-core:25.5.16-ls
     command:
       - run
       - -config
-      - /opt/v2ray/config.json
-    restart: always
+      - /opt/config/config.json
     volumes:
-      - ./v2ray.json:/opt/v2ray/config.json:ro
-      - ./run/v2ray/log/:/opt/log/:rw
+      - v2ray-config:/opt/config/:rw
+    expose:
+      - 2080
+      - 2081
+    networks:
+      - internal
+    depends_on:
+      - config
+      - server-forwarder
+      - dns-forwarder
+      - direct-proxy
+    restart: always
+
+  config:
+    image: alpine
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - |
+        LAST_MODTIME=
+        FILE=/opt/config.json
+
+        while true; do
+            CURRENT_MODTIME=$$(stat -c %Y "/opt/config.json")
+            if [ "$$CURRENT_MODTIME" != "$$LAST_MODTIME" ]; then
+                echo "file changed at $$(date)"
+                LAST_MODTIME=$$CURRENT_MODTIME
+                cat /opt/config.json | sed -e "s/\$${SERVER}/$${SERVER}/g" - | sed -e "s/\$${PASSWORD}/$${PASSWORD}/g" - | cat - >/opt/config/config.json
+            fi
+            sleep 1
+        done
+    volumes:
+      - ./config.json:/opt/config.json:ro
+      - v2ray-config:/opt/config/:rw
+    environment:
+      - SERVER
+      - PASSWORD
+    networks:
+      - internal
+    restart: always
+
+  port-2080-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - >-
+        socat -t 10
+        TCP-LISTEN:2080,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
+        TCP:v2ray:2080,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+    environment:
+      - SERVER
     ports:
       - "2080:2080"
+    user: "1000:1000"
+    networks:
+      - default
+      - internal
+    restart: always
+
+  port-2081-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - >-
+        socat -t 10
+        TCP-LISTEN:2081,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
+        TCP:v2ray:2081,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+
+    environment:
+      - SERVER
+    ports:
       - "2081:2081"
+    user: "1000:1000"
+    networks:
+      - default
+      - internal
+    restart: always
+
+  server-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - >
+        socat -t 10
+        TCP-LISTEN:4443,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
+        TCP:$${SERVER}:443,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+    environment:
+      - SERVER
+    expose:
+      - 4443
+    user: "1000:1000"
+    networks:
+      - default
+      - internal
+    restart: always
+
+  dns-forwarder:
+    image: alpine/socat:1.8.0.3
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - >-
+        socat -t 10
+        UDP-LISTEN:5553,fork,reuseaddr,so-rcvtimeo=1,so-sndtimeo=1
+        UDP:8.8.8.8:53,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+    environment:
+      - SERVER
+    expose:
+      - 4443
+    user: "1000:1000"
+    networks:
+      - default
+      - internal
+    restart: always
+
+  direct-proxy:
+    image: serjs/go-socks5-proxy
+    environment:
+      PROXY_PORT: 2080
+    expose:
+      - 2080
+    user: "1000:1000"
+    networks:
+      - internal
+      - default
+    restart: always
+
+volumes:
+  v2ray-config:
+    driver: local
+
+networks:
+  default:
+  internal:
+    internal: true
