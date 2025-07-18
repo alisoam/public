@@ -119,7 +119,7 @@ services:
       - >-
         socat -t 10
         UDP-LISTEN:5553,fork,reuseaddr,so-rcvtimeo=1,so-sndtimeo=1
-        UDP:8.8.8.8:53,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+        UDP:8.8.8.8:53,so-rcvtimeo=3,so-sndtimeo=3
     environment:
       - SERVER
     expose:

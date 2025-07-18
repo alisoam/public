@@ -41,9 +41,9 @@
                     "path": "/v2ray/trojan"
                 },
                 "tlsSettings": {
-		    "serverName": "${SERVER}",
-		    "allowInsecure": false
-		},
+                    "serverName": "${SERVER}",
+                    "allowInsecure": false
+                },
                 "sockopt": {
                     "dialerProxy": "fragment",
                     "tcpKeepAliveIdle": 1,
@@ -74,8 +74,28 @@
         },
         {
             "tag": "direct",
-            "protocol": "freedom"
-            
+            "protocol": "socks",
+            "settings":{
+                "servers": [
+                    {
+                        "address": "direct-proxy",
+                        "port": 2080
+                    }
+                ],
+                "streamSettings": {
+                    "network": "tcp",
+                    "security": "none",
+                    "tcpSettings": {},
+                    "sockopt": {
+                        "tcpKeepAliveInterval": 5,
+                        "tcpKeepAliveIdle": 2,
+                        "tcpFastOpen": true,
+                        "tcpNoDelay": true,
+                        "tcpUserTimeout": 300
+                    }
+                }
+            },
+            "mux": {}
         }
     ],
     "dns": {
