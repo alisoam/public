@@ -101,7 +101,16 @@
     "dns": {
         "servers": [
             {
-                "address": "dns-forwarer",
+                "address": "127.0.0.11",
+                "port": 53,
+                "skipFallback": true,
+                "domains": [
+                   "server-forwarder",
+                   "dns-forwarder"
+               ]
+            },
+            {
+                "address": "dns-forwarder",
                 "port": 5553,
                 "skipFallback": true,
                 "domains": [

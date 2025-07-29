@@ -56,7 +56,7 @@ services:
       - -c
     command:
       - >-
-        socat -t 10
+        socat -t 60
         TCP-LISTEN:2080,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
         TCP:v2ray:2080,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
     environment:
@@ -76,7 +76,7 @@ services:
       - -c
     command:
       - >-
-        socat -t 10
+        socat -t 60
         TCP-LISTEN:2081,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
         TCP:v2ray:2081,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
 
@@ -99,7 +99,7 @@ services:
       - >
         socat -t 10
         TCP-LISTEN:4443,fork,reuseaddr,keepalive,keepidle=5,keepintvl=1,keepcnt=3,so-rcvtimeo=1,so-sndtimeo=1
-        TCP:$${SERVER}:443,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=0.5
+        TCP:$${SERVER}:443,keepalive,keepidle=5,keepintvl=1,keepcnt=3,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=3,interval=1
     environment:
       - SERVER
     expose:
