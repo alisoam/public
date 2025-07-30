@@ -16,23 +16,6 @@ services:
     networks:
       - internal
 
-  dns-forwarder:
-    image: alpine/socat:1.8.0.3
-    entrypoint:
-      - /bin/sh
-      - -c
-    command:
-      - "socat -t 10 UDP-LISTEN:5553,fork UDP:8.8.8.8:53,connect-timeout=1,so-rcvtimeo=3,so-sndtimeo=3,retry=5,interval=1"
-    environment:
-      - SERVER
-    expose:
-      - 4443
-    user: "1000:1000"
-    networks:
-      - default
-      - internal
-    restart: always
-
   direct-proxy:
     image: serjs/go-socks5-proxy
     environment:
@@ -55,8 +38,6 @@ services:
         ./wstunnel server \
           --log-lvl WARN \
           --websocket-ping-frequency 1s \
-          --dns-resolver dns://8.8.8.8 \
-          --dns-resolver-prefer-ipv4 \
           --remote-to-local-server-idle-timeout 5s \
           --restrict-http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
           ws://[::]:8000

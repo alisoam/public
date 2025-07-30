@@ -109,11 +109,16 @@
         }
     ],
     "dns": {
+        "hosts": {
+            "dns.google": ["8.8.8.8", "8.8.4.4"],
+            "1.1.1.1": "1.1.1.1",
+            "8.8.8.8": "8.8.8.8"
+        },
         "servers": [
             {
-                "address": "dns-forwarder",
-                "port": 5553,
+                "address": "localhost",
                 "skipFallback": true,
+                "finalQuery": true,
                 "domains": [
                     "geosite:cloudflare",
                     "domain:ir",
@@ -129,9 +134,17 @@
                     "domain:snapp.taxi"
                 ]
             },
-            "https://8.8.8.8/dns-query",
-            "https://1.1.1.1/dns-query"
-        ]
+            {
+                "address": "https://8.8.8.8/dns-query",
+                "timeoutMs": 20000
+            },
+            {
+                "address": "https://1.1.1.1/dns-query",
+                "timeoutMs": 20000
+            }
+        ],
+        "disableFallbackIfMatch": true,
+        "disableCache": false
     },
     "routing": {
         "domainStrategy": "IPOnDemand",
