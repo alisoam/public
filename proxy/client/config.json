@@ -110,16 +110,7 @@
                 "skipFallback": true,
                 "finalQuery": true,
                 "domains": [
-                   "server-forwarder",
-                   "dns-forwarder"
-               ]
-            },
-            {
-                "address": "dns-forwarder",
-                "port": 5553,
-                "skipFallback": true,
-                "finalQuery": true,
-                "domains": [
+                    "server-forwarder",
                     "geosite:cloudflare",
                     "domain:ir",
                     "regexp:^.+\\.ir$",
