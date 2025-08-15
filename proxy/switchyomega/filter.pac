@@ -45,6 +45,7 @@ function FindProxyForURL(url, host, scheme) {
         /^(.*\.)?aiofilm\.([^\.]+)$/,
         /^(.*\.)?v2fly\.org$/,
         /^(.*\.)?overleaf\.com$/,
+        /^(.*\.)?overleafusercontent\.com$/,
         /^(.*\.)?anilist\.co$/,
         /^(.*\.)?openai\.com$/,
         /^(.*\.)?chatgpt\.com$/,
