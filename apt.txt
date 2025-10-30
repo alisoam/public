@@ -15,3 +15,4 @@ powerline
 kitty-terminfo
 docker.io
 docker-compose-v2
+libpam-ssh-agent-auth
