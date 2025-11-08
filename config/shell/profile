@@ -43,6 +43,7 @@ alias gdb=gdb-multiarch
 alias reset='reset;[ -z "$TMUX" ] || tmux clear-history'
 alias vim='nvim'
 
+alias docker='sudo docker'
 alias d='docker'
 alias dr='docker run'
 alias dc='docker compose'
