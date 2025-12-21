@@ -15,6 +15,11 @@ services:
       - 1312
     networks:
       - internal
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
   direct-proxy:
     image: serjs/go-socks5-proxy
@@ -27,9 +32,14 @@ services:
       - internal
       - default
     restart: always
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.4.4
+    image: ghcr.io/erebe/wstunnel:v10.5.1
     entrypoint:
       - /bin/bash
       - -c
@@ -50,6 +60,11 @@ services:
     networks:
       - internal
     restart: always
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
   proxy-gateway:
     image: nginx:alpine
@@ -61,6 +76,11 @@ services:
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
 networks:
   internal:
