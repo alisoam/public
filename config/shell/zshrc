@@ -10,6 +10,7 @@ zstyle ':prompt:pure:prompt:success' color green
 zstyle ':prompt:pure:prompt:error' color red
 
 antigen bundle git
+antigen bundle git-auto-fetch
 antigen bundle zsh-users/zsh-completions
 antigen bundle pip
 antigen bundle command-not-found
@@ -30,3 +31,10 @@ autoload -U +X compinit && compinit
 [[ -x "$(command -v direnv)" ]] && eval "$(direnv hook zsh)"
 
 [[ -x "$(command -v uv)" ]] && eval "$(uv generate-shell-completion zsh)"
+
+export PURE_GIT_PULL=0
+export GIT_AUTO_FETCH_INTERVAL=1200
+
+plugins=(
+  git-auto-fetch
+)
