@@ -1,7 +1,7 @@
 name: proxy-wstunnel
 services:
   wstunnel:
-    image: ghcr.io/erebe/wstunnel:v10.4.4
+    image: ghcr.io/erebe/wstunnel:v10.5.1
     entrypoint:
       - /bin/bash
       - -c
@@ -14,7 +14,7 @@ services:
           --connection-min-idle 3 \
           --websocket-ping-frequency 1s \
           --http-upgrade-path-prefix wstunnel-$${AUTH_SECRET} \
-          --remote-to-local 'tcp://[::]:2080:proxy:2080?timeout_sec=0' \
+          --remote-to-local 'tcp://[::]:2080:proxy:2080?timeout_sec=30' \
           --http-headers "Host: $${SERVER}" \
           --tls-sni-override=$${SERVER} \
           --tls-verify-certificate \
@@ -26,6 +26,11 @@ services:
     networks:
       - internal
     restart: always
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
   server-forwarder:
     image: alpine/socat:1.8.0.3
@@ -34,8 +39,7 @@ services:
       - -c
     command:
       - >
-        socat \
-          -t 10 \
+        socat -T 30 -t 10 \
           TCP-LISTEN:4443,fork,reuseaddr,nodelay,keepalive,keepidle=3,keepintvl=1,keepcnt=3,backlog=5000,so-rcvtimeo=1,so-sndtimeo=1 \
           TCP:$${SERVER}:443,nodelay,keepalive,keepidle=3,keepintvl=1,keepcnt=3,connect-timeout=5,so-rcvtimeo=5,so-sndtimeo=5,retry=5,interval=1
     environment:
@@ -47,11 +51,17 @@ services:
       - default
       - internal
     restart: always
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
   proxy:
-    image: serjs/go-socks5-proxy
+    image: serjs/go-socks5-proxy:v0.0.4
     environment:
       PROXY_PORT: 2080
+      REQUIRE_AUTH: "false"
     expose:
       - 2080
     user: "1000:1000"
@@ -59,10 +69,15 @@ services:
       - internal
       - default
     restart: always
+    sysctls:
+      - net.ipv4.tcp_retries2=3
+      - net.ipv4.tcp_keepalive_time=3
+      - net.ipv4.tcp_keepalive_intvl=3
+      - net.ipv4.tcp_keepalive_probes=3
 
 networks:
   default:
-    enable_ipv6: true
+    # enable_ipv6: true
   internal:
     internal: true
-    enable_ipv6: true
+    # enable_ipv6: true
