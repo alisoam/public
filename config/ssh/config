@@ -21,8 +21,9 @@ HOST *.sosori.ir *.sosoro.ir
     AddKeysToAgent yes
 
 Host *.ssh.sosori.ir
-    ProxyCommand openssl s_client -quiet -verify_quiet -verify_return_error -tls1_3 -reconnect -servername %h -connect ssh.sosori.ir:443
+    ProxyCommand websocat --exit-on-eof --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" --binary wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1)
     User ali
+    Port 22
     LocalForward 18000 localhost:18000
     LocalForward 8000 localhost:8000
     LocalForward 8080 localhost:8080
