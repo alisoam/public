@@ -21,7 +21,7 @@ HOST *.sosori.ir *.sosoro.ir
     AddKeysToAgent yes
 
 Host *.ssh.sosori.ir
-    ProxyCommand websocat --exit-on-eof --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" --binary wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1)
+    ProxyCommand /bin/sh -c 'exec websocat --binary --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1) 2>/dev/null'
     User ali
     Port 22
     LocalForward 18000 localhost:18000
