@@ -28,15 +28,10 @@ require("lazy").setup({
       vim.cmd.colorscheme('gruvbox-material')
     end
   },
-  --{
-  --  "rebelot/kanagawa.nvim",
-  --  priority = 1000, -- Ensure it loads first
-  --  lazy = false,
-  --  config = function()
-  --    vim.o.background = "dark"
-  --    vim.cmd([[colorscheme kanagawa-dragon]])
-  --  end
-  --},
+  {
+    "tpope/vim-sleuth",
+    event = "BufReadPre",
+  },
   {
     "vim-airline/vim-airline",
     lazy = false,
@@ -80,7 +75,6 @@ require("lazy").setup({
     opts = function()
       local metals_config = require("metals").bare_config()
       metals_config.on_attach = function(client, bufnr)
-        -- your on_attach function
       end
   
       return metals_config
@@ -97,87 +91,80 @@ require("lazy").setup({
     end,
   },
   {"mfussenegger/nvim-dap-python", ft = "py", dependencies = {"mfussenegger/nvim-dap"}},
-  -- {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"}},
-  -- {"glacambre/firenvim", run = function() vim.fn['firenvim#install'](0) end},
   "github/copilot.vim",
-  -- {
-  --   'Exafunction/codeium.vim',
-  --   event = 'BufEnter',
-  -- },
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = "*",
+    "carlos-algms/agentic.nvim",
     opts = {
-      --provider = "copilot",
-      -- auto_suggestions_provider = "copilot",
-      -- cursor_applying_provider = "copilot",
-      provider = "openai",
-      providers ={
-        openai = {
-          endpoint = os.getenv("OPENAI_API_BASE"),
-          model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-          timeout = 10000, -- timeout in milliseconds
-          max_tokens = 4096,
-          -- reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
-          extra_request_body = {
-            temperature = 0, -- adjust if needed
-          },
-        }
-      }
-    },
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
+      provider = "opencode-acp",
+      acp_providers = {
+        ["claude-agent-acp"] = {
+          env = {
+            ["claude-agent-acp"] = {
+              env = {
+                TZ = "Asia/Singapore",
+              },
             },
-            -- required for Windows users
-            use_absolute_path = true,
           },
         },
       },
+    },
+    keys = {
       {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
+        "<C-\\>",
+        function() require("agentic").toggle() end,
+        mode = { "n", "v", "i" },
+        desc = "Toggle Agentic Chat"
+      },
+      {
+        "<C-'>",
+        function() require("agentic").add_selection_or_file_to_context() end,
+        mode = { "n", "v" },
+        desc = "Add file or selection to Agentic to Context"
+      },
+      {
+        "<C-,>",
+        function() require("agentic").new_session() end,
+        mode = { "n", "v", "i" },
+        desc = "New Agentic Session"
+      },
+      {
+        "<A-i>r", -- ai Restore
+        function()
+            require("agentic").restore_session()
+        end,
+        desc = "Agentic Restore session",
+        silent = true,
+        mode = { "n", "v", "i" },
+      },
+      {
+        "<leader>ad", -- ai Diagnostics
+        function()
+            require("agentic").add_current_line_diagnostics()
+        end,
+        desc = "Add current line diagnostic to Agentic",
+        mode = { "n" },
+      },
+      {
+        "<leader>aD", -- ai all Diagnostics
+        function()
+            require("agentic").add_buffer_diagnostics()
+        end,
+        desc = "Add all buffer diagnostics to Agentic",
+        mode = { "n" },
       },
     },
   },
-  -- {
-  --   "OXY2DEV/markview.nvim",
-  --   enabled = true,
-  --   lazy = false,
-  --   ft = { "markdown", "norg", "rmd", "org", "vimwiki", "Avante" },
-  --   opts = {
-  --     filetypes = { "markdown", "norg", "rmd", "org", "vimwiki", "Avante" },
-  --     buf_ignore = {},
-  --     max_length = 99999,
-  --   },
-  -- },
+  {
+    "benlubas/molten-nvim",
+    version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+    -- dependencies = { "3rd/image.nvim" },
+    build = ":UpdateRemotePlugins",
+    init = function()
+      -- these are examples, not defaults. Please see the readme
+      --vim.g.molten_image_provider = "image.nvim"
+      vim.g.molten_output_win_max_height = 20
+    end,
+  },
 })
 
 vim.opt.autoindent = true
@@ -269,9 +256,10 @@ vim.opt.secure = true
 --vim.api.nvim_set_keymap("n", '<C-y>', '"+y', { silent = true })
 --vim.api.nvim_set_keymap("n", '<C-p>', '"+p', { silent = true })
 
-require 'lspconfig'
-require 'lspconfig'.pyright.setup{}
-require 'lspconfig'.gopls.setup{}
-require 'lspconfig'.clangd.setup{}
+vim.lsp.config('gopls', {})
+vim.lsp.enable('gopls')
+vim.lsp.config('pyright', {})
+vim.lsp.enable('pyright')
+vim.lsp.config('clangd', {})
+vim.lsp.enable('clangd')
 require 'lsp-cfg'
---require 'dap-py'
