@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "divar-git": {
+      "type": "remote",
+      "url": "{env:DIVAR_GIT_MCP_URL}",
+      "enabled": true
+    },
+    "divar-jupyter": {
+      "type": "remote",
+      "url": "{env:DIVAR_JUPYTER_MCP_URL}",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:DIVAR_JUPYTER_MCP_TOKEN}"
+      }
+    },
+    "divar-metabase": {
+      "type": "remote",
+      "url": "{env:DIVAR_METABASE_MCP_URL}",
+      "enabled": true
+    },
+    "divar-copilot": {
+      "type": "remote",
+      "url": "{env:DIVAR_COPILOT_MCP_URL}",
+      "oauth": {}
+    }
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "aliafshar/gemma3-it-qat-tools:1b": {
+          "name": "gemma3:1b-it-qat"
+        }
+      }
+    },
+    "litellm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Divar LiteLLM",
+      "options": {
+        "baseURL": "{env:OPENAI_API_BASE}",
+        "apiKey": "{env:OPENAI_API_KEY}"
+      },
+      "models": {
+        "gpt-5.2": {
+          "name": "gpt-5.2"
+        },
+        "claude-sonnet-4-5-20251101": {
+        "name": "Claude Sonnet 4.5"
+        }
+      }
+    }
+  }
+}
