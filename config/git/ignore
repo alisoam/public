@@ -2,3 +2,5 @@
 /.metals/
 /.env
 /.envrc
+
+**/.claude/settings.local.json
