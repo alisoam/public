@@ -173,6 +173,8 @@ all_configs: list[Config] = [
 
     Directory("ssh", "ssh", "~/.ssh"),
 
+    Directory("config", "config", "~/.config"),
+
     Directory("tmux", "tmux", "~/.config/tmux"),
     Directory("nvim", "nvim", "~/.config/nvim"),
     Directory("git", "git", "~/.config/git"),
