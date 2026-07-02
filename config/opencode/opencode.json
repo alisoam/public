@@ -1,15 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "lsp": {},
   "mcp": {
     "divar-git": {
       "type": "remote",
       "url": "{env:DIVAR_GIT_MCP_URL}",
-      "enabled": true
+      "enabled": false
     },
     "divar-jupyter": {
       "type": "remote",
       "url": "{env:DIVAR_JUPYTER_MCP_URL}",
-      "enabled": true,
+      "enabled": false,
       "oauth": false,
       "headers": {
         "Authorization": "Bearer {env:DIVAR_JUPYTER_MCP_TOKEN}"
@@ -18,15 +19,36 @@
     "divar-metabase": {
       "type": "remote",
       "url": "{env:DIVAR_METABASE_MCP_URL}",
-      "enabled": true
+      "enabled": false
     },
     "divar-copilot": {
       "type": "remote",
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
       "oauth": {}
+    },
+    "openscad": {
+      "type": "local",
+      "command": ["uv", "run", "--with", "git+https://github.com/quellant/openscad-mcp.git", "openscad-mcp"],
+      "enabled": false
     }
   },
   "provider": {
+    "metisai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "metisai.ir",
+      "options": {
+        "baseURL": "https://api.metisai.ir/deepseek/v1",
+        "apiKey": "{env:METISAI_API_KEY}"
+      },
+      "models": {
+        "deepseek-v4-pro": {
+          "name": "deepseek-v4-pro"
+        },
+        "deepseek-v4-flash": {
+          "name": "deepseek-v4-flash"
+        }
+      }
+    },
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama",
