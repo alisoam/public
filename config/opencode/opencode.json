@@ -24,7 +24,8 @@
     "divar-copilot": {
       "type": "remote",
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
-      "oauth": {}
+      "oauth": {},
+      "enabled": false
     },
     "openscad": {
       "type": "local",
