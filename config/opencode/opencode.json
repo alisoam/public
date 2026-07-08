@@ -62,6 +62,19 @@
         }
       }
     },
+    "raytoneai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Rayton AI",
+      "options": {
+        "baseURL": "https://api.raytone.ai/v1",
+        "apiKey": "{env:RAYTONEAI_API_KEY}"
+      },
+      "models": {
+        "glm-5.2": {
+          "name": "glm-5.2"
+        }
+      }
+    },
     "litellm": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Divar LiteLLM",
