@@ -16,9 +16,31 @@ PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v0
 Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
 
+Host git.divar.cloud
+    User ali.sorouramini
+    ControlMaster auto
+    ControlPath ~/.ssh/control/divar-%r@%h:%p
+    ControlPersist 60m
+
 HOST *.sosori.ir *.sosoro.ir
     ForwardAgent yes
     AddKeysToAgent yes
+
+Host ws.sosori.ir
+    User ali
+    Port 22
+    LocalForward 18000 localhost:18000
+    LocalForward 8000 localhost:8000
+    LocalForward 8080 localhost:8080
+    LocalForward 8081 localhost:8081
+    LocalForward 8082 localhost:8082
+    LocalForward 8083 localhost:8083
+    LocalForward 8084 localhost:8084
+    LocalForward 8085 localhost:8085
+    LocalForward 8086 localhost:8086
+    LocalForward 8087 localhost:8087
+    LocalForward 8088 localhost:8088
+    LocalForward 8089 localhost:8089
 
 Host *.ssh.sosori.ir
     ProxyCommand /bin/sh -c 'exec websocat --binary --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1) 2>/dev/null'
