@@ -70,6 +70,20 @@
 
       "kubectl": "ask",
       "kubectl *": "ask",
+
+      "kubectl get deployment*": "allow",
+      "kubectl get pod*": "allow",
+      "kubectl get configmap*": "allow",
+      "kubectl get service*": "allow",
+      "kubectl get svc*": "allow",
+      "kubectl get quota*": "allow",
+      "kubectl describe deployment*": "allow",
+      "kubectl describe pod*": "allow",
+      "kubectl describe configmap*": "allow",
+      "kubectl describe service*": "allow",
+      "kubectl describe svc*": "allow",
+      "kubectl describe quota*": "allow",
+
       "helm uninstall *": "ask",
       "helm rollback *": "ask",
       "terraform destroy *": "ask",
