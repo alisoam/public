@@ -13,22 +13,25 @@ GSSAPIKexAlgorithms gss-curve25519-sha256-,gss-group16-sha512-
 HostbasedAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256
 PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com
 
+UserKnownHostsFile ~/.ssh/known_hosts
+HashKnownHosts yes
+StrictHostKeyChecking yes
+PasswordAuthentication no
+
+ControlMaster auto
+ControlPath ~/.ssh/control/%r@%h:%p
+ControlPersist 30m
+
 Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
-
-Host git.divar.cloud
-    User ali.sorouramini
-    ControlMaster auto
-    ControlPath ~/.ssh/control/divar-%r@%h:%p
-    ControlPersist 60m
-
-HOST *.sosori.ir *.sosoro.ir
-    ForwardAgent yes
-    AddKeysToAgent yes
 
 Host ws.sosori.ir
     User ali
     Port 22
+
+    ForwardAgent yes
+    AddKeysToAgent yes
+
     LocalForward 18000 localhost:18000
     LocalForward 8000 localhost:8000
     LocalForward 8080 localhost:8080
@@ -46,6 +49,10 @@ Host *.ssh.sosori.ir
     ProxyCommand /bin/sh -c 'exec websocat --binary --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1) 2>/dev/null'
     User ali
     Port 22
+
+    ForwardAgent yes
+    AddKeysToAgent yes
+
     LocalForward 18000 localhost:18000
     LocalForward 8000 localhost:8000
     LocalForward 8080 localhost:8080
