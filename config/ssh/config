@@ -45,5 +45,8 @@ Host ws.sosori.ir *.ssh.sosori.ir
     LocalForward 8088 localhost:8088
     LocalForward 8089 localhost:8089
 
+Host ws.sosori.ir
+    RemoteForward 2080
+
 Host *.ssh.sosori.ir
     ProxyCommand /bin/sh -c 'exec websocat --binary --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1) 2>/dev/null'
