@@ -79,10 +79,10 @@ function mssh {
 }
 
 function enable_proxy {
-    export http_proxy=http://172.20.0.1:2081
-    export HTTP_PROXY=http://172.20.0.1:2081
-    export https_proxy=http://172.20.0.1:2081
-    export HTTPS_PROXY=http://172.20.0.1:2081
+    export http_proxy=$PROXY_ADDR
+    export HTTP_PROXY=$PROXY_ADDR
+    export https_proxy=$PROXY_ADDR
+    export HTTPS_PROXY=$PROXY_ADDR
 }
 
 function disable_proxy {
