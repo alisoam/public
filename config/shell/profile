@@ -33,6 +33,10 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
+if [ -n "$( command -v goenv )" ]; then
+    eval "$(goenv init -)"
+fi
+
 if [ -n "$( command -v thefuck )" ]; then
     eval "$(thefuck --alias)"
 fi

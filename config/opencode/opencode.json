@@ -143,7 +143,20 @@
     "divar-copilot": {
       "type": "remote",
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
-      "oauth": {},
+      "enabled": false
+    },
+    "divar-docs": {
+      "type": "remote",
+      "url": "{env:DIVAR_DOCS_MCP_URL}",
+      "enabled": false
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
       "enabled": false
     },
     "openscad": {
@@ -191,6 +204,9 @@
       "models": {
         "glm-5.2": {
           "name": "glm-5.2"
+        },
+        "glm-5.3": {
+          "name": "glm-5.3"
         }
       }
     },

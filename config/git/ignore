@@ -2,5 +2,6 @@
 /.metals/
 /.env
 /.envrc
+/.go-version
 
 **/.claude/settings.local.json
