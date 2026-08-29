@@ -11,7 +11,7 @@ HostKeyAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@opens
 CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256
 GSSAPIKexAlgorithms gss-curve25519-sha256-,gss-group16-sha512-
 HostbasedAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256
-PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com
+PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256
 
 UserKnownHostsFile ~/.ssh/known_hosts
 HashKnownHosts yes
@@ -25,12 +25,14 @@ ControlPersist 30m
 Host *.gitlab.com gitlab.com
     ProxyCommand nc -X connect -x localhost:2081 %h %p
 
-Host ws.sosori.ir *.ssh.sosori.ir
+Host ws.sosori.ir
     User ali
     Port 22
 
     ForwardAgent yes
     AddKeysToAgent yes
+
+    RemoteForward 2080
 
     LocalForward 18000 localhost:18000
     LocalForward 8000 localhost:8000
@@ -44,9 +46,3 @@ Host ws.sosori.ir *.ssh.sosori.ir
     LocalForward 8087 localhost:8087
     LocalForward 8088 localhost:8088
     LocalForward 8089 localhost:8089
-
-Host ws.sosori.ir
-    RemoteForward 2080
-
-Host *.ssh.sosori.ir
-    ProxyCommand /bin/sh -c 'exec websocat --binary --header="Authorization: Token $SSH_TUNNEL_WS_CLIENT_TOKEN" wss://ws.ssh.sosori.ir/$(echo %h | cut -d. -f1) 2>/dev/null'

@@ -181,9 +181,6 @@ all_configs: list[Config] = [
     Directory("kitty", "kitty", "~/.config/kitty"),
 
     Directory("opencode", "opencode", "~/.config/opencode"),
-
-    File("i3", "i3/i3", "~/.config/i3/config"),
-    File("i3", "i3/i3status", "~/.config/i3status/config"),
 ]
 
 
