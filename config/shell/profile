@@ -28,13 +28,13 @@ if [ -e "$HOME/go" ]; then
     export PATH="$PATH:/usr/local/go/bin:$GOHOME/bin:$GOPATH/bin/"
 fi
 
+if [ -n "$( command -v goenv )" ]; then
+    eval "$(goenv init -)"
+fi
+
 if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export IDF_PATH="$HOME/esp/esp-idf"
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
-fi
-
-if [ -n "$( command -v goenv )" ]; then
-    eval "$(goenv init -)"
 fi
 
 if [ -n "$( command -v thefuck )" ]; then

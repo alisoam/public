@@ -15,7 +15,7 @@ PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v0
 
 UserKnownHostsFile ~/.ssh/known_hosts
 HashKnownHosts yes
-StrictHostKeyChecking yes
+StrictHostKeyChecking ask
 PasswordAuthentication no
 
 ControlMaster auto
