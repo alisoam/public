@@ -4,4 +4,7 @@ neovim
 direnv
 uv
 thefuck
-websocat
+opencode
+witr
+goenv
+bottom
