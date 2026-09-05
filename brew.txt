@@ -8,3 +8,4 @@ opencode
 witr
 goenv
 bottom
+markdown
