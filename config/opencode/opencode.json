@@ -130,7 +130,7 @@
         "--with",
         "jupyter-mcp-server",
         "python",
-        "/home/ali/.config/opencode/divar-jupyter-proxy.py"
+        "{env:HOME}/.config/opencode/divar-jupyter-proxy.py"
       ],
       "environment": {
         "DIVAR_JUPYTER_URL": "{env:DIVAR_JUPYTER_URL}",
