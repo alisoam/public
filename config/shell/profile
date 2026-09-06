@@ -96,6 +96,12 @@ function disable_proxy {
     unset HTTPS_PROXY
 }
 
+function mdchrome {
+    local tmp
+    tmp="$(mktemp --suffix=.html)" || return
+    markdown "$1" > "$tmp" && google-chrome "$tmp"
+}
+
 if [ -e "$HOME/.locals" ]; then
     source "$HOME/.locals"
 fi

@@ -121,19 +121,23 @@
     }
   },
   "mcp": {
-    "divar-git": {
-      "type": "remote",
-      "url": "{env:DIVAR_GIT_MCP_URL}",
-      "enabled": false
-    },
     "divar-jupyter": {
-      "type": "remote",
-      "url": "{env:DIVAR_JUPYTER_MCP_URL}",
-      "enabled": false,
-      "oauth": false,
-      "headers": {
-        "Authorization": "Bearer {env:DIVAR_JUPYTER_MCP_TOKEN}"
-      }
+      "type": "local",
+      "command": [
+        "uv",
+        "run",
+        "--quiet",
+        "--with",
+        "jupyter-mcp-server",
+        "python",
+        "/home/ali/.config/opencode/divar-jupyter-proxy.py"
+      ],
+      "environment": {
+        "DIVAR_JUPYTER_URL": "{env:DIVAR_JUPYTER_URL}",
+        "DIVAR_JUPYTER_TOKEN": "{env:DIVAR_JUPYTER_TOKEN}",
+        "ALLOW_IMG_OUTPUT": "true"
+      },
+      "enabled": false
     },
     "divar-metabase": {
       "type": "remote",
@@ -143,11 +147,6 @@
     "divar-copilot": {
       "type": "remote",
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
-      "enabled": false
-    },
-    "divar-docs": {
-      "type": "remote",
-      "url": "{env:DIVAR_DOCS_MCP_URL}",
       "enabled": false
     },
     "playwright": {
