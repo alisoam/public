@@ -99,7 +99,7 @@ function disable_proxy {
 function mdchrome {
     local tmp
     tmp="$(mktemp --suffix=.html)" || return
-    markdown "$1" > "$tmp" && google-chrome "$tmp"
+    pandoc "$1" -f gfm --mathjax="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" -s -o "$tmp" && google-chrome "$tmp"
 }
 
 if [ -e "$HOME/.locals" ]; then

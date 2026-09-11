@@ -9,3 +9,4 @@ witr
 goenv
 bottom
 markdown
+pandoc
