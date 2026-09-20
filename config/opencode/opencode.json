@@ -124,29 +124,39 @@
     "divar-jupyter": {
       "type": "local",
       "command": [
-        "uv",
-        "run",
-        "--quiet",
-        "--with",
-        "jupyter-mcp-server",
-        "python",
-        "{env:HOME}/.config/opencode/divar-jupyter-proxy.py"
+        "jagent",
+        "mcp"
       ],
       "environment": {
-        "DIVAR_JUPYTER_URL": "{env:DIVAR_JUPYTER_URL}",
-        "DIVAR_JUPYTER_TOKEN": "{env:DIVAR_JUPYTER_TOKEN}",
-        "ALLOW_IMG_OUTPUT": "true"
+        "JUPYTERHUB_URL": "{env:DIVAR_JUPYTER_URL}",
+        "JUPYTERHUB_API_TOKEN": "{env:DIVAR_JUPYTER_TOKEN}",
+        "JUPYTERHUB_SERVER_URL": "{env:DIVAR_JUPYTER_URL/user/ali.sorouramini}"
       },
-      "enabled": false
-    },
-    "divar-metabase": {
-      "type": "remote",
-      "url": "{env:DIVAR_METABASE_MCP_URL}",
       "enabled": false
     },
     "divar-copilot": {
       "type": "remote",
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
+      "enabled": false
+    },
+    "divar-dastyar-data-sql": {
+      "type": "remote",
+      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/sql",
+      "enabled": false
+    },
+    "divar-dastyar-data-outline": {
+      "type": "remote",
+      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/outline",
+      "enabled": false
+    },
+    "divar-dastyar-data-codesearch": {
+      "type": "remote",
+      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/codesearch",
+      "enabled": false
+    },
+    "divar-metabase": {
+      "type": "remote",
+      "url": "{env:DIVAR_METABASE_MCP_URL}",
       "enabled": false
     },
     "playwright": {
