@@ -4,12 +4,10 @@
   "permission": {
     "bash": {
       "*": "allow",
-
       "sudo *": "ask",
       "su *": "ask",
       "doas *": "ask",
       "pkexec *": "ask",
-
       "rm -rf*": "ask",
       "rm -r *": "ask",
       "rm -fr*": "ask",
@@ -21,14 +19,12 @@
       "mkfs*": "ask",
       "shred *": "ask",
       "truncate -s 0 *": "ask",
-
       "git push --force*": "ask",
       "git push -f*": "ask",
       "git reset --hard*": "ask",
       "git clean -f*": "ask",
       "git clean -fd*": "ask",
       "git branch -D *": "ask",
-
       "kill *": "ask",
       "killall *": "ask",
       "pkill *": "ask",
@@ -40,7 +36,6 @@
       "systemctl disable *": "ask",
       "systemctl enable *": "ask",
       "crontab *": "ask",
-
       "pip install *": "ask",
       "npm install *": "ask",
       "yarn add *": "ask",
@@ -55,22 +50,18 @@
       "yum install *": "ask",
       "dnf install *": "ask",
       "pacman *": "ask",
-
       "scp *": "ask",
       "rsync *": "ask",
       "nc *": "ask",
       "ncat *": "ask",
       "socat *": "ask",
       "ssh *": "ask",
-
       "docker rm *": "ask",
       "docker rmi *": "ask",
       "docker system prune*": "ask",
       "docker exec *": "ask",
-
       "kubectl": "ask",
       "kubectl *": "ask",
-
       "kubectl get deployment*": "allow",
       "kubectl get pod*": "allow",
       "kubectl get configmap*": "allow",
@@ -83,13 +74,11 @@
       "kubectl describe service*": "allow",
       "kubectl describe svc*": "allow",
       "kubectl describe quota*": "allow",
-
       "helm uninstall *": "ask",
       "helm rollback *": "ask",
       "terraform destroy *": "ask",
       "terraform apply *": "ask",
       "ansible-playbook *": "ask",
-
       "curl *-X POST*": "ask",
       "curl *-X PUT*": "ask",
       "curl *-XPOST*": "ask",
@@ -103,7 +92,6 @@
       "wget *--post-data*": "ask",
       "wget *--post-file*": "ask",
       "wget *--upload-file*": "ask",
-
       "*| sh": "deny",
       "*| bash": "deny",
       "*| zsh": "deny",
@@ -170,7 +158,13 @@
     },
     "openscad": {
       "type": "local",
-      "command": ["uv", "run", "--with", "git+https://github.com/quellant/openscad-mcp.git", "openscad-mcp"],
+      "command": [
+        "uv",
+        "run",
+        "--with",
+        "git+https://github.com/quellant/openscad-mcp.git",
+        "openscad-mcp"
+      ],
       "enabled": false
     }
   },
@@ -203,22 +197,6 @@
         }
       }
     },
-    "raytoneai": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Rayton AI",
-      "options": {
-        "baseURL": "https://api.raytone.ai/v1",
-        "apiKey": "{env:RAYTONEAI_API_KEY}"
-      },
-      "models": {
-        "glm-5.2": {
-          "name": "glm-5.2"
-        },
-        "glm-5.3": {
-          "name": "glm-5.3"
-        }
-      }
-    },
     "litellm": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Divar LiteLLM",
@@ -231,9 +209,40 @@
           "name": "gpt-5.2"
         },
         "claude-sonnet-4-5-20251101": {
-        "name": "Claude Sonnet 4.5"
+          "name": "Claude Sonnet 4.5"
         }
       }
     }
-  }
+  },
+  "agent": {
+    "commander": {
+      "model": "openai/gpt-6-astra"
+    },
+    "planner": {
+      "model": "zai-coding-plan/glm-5.3"
+    },
+    "worker": {
+      "model": "zai-coding-plan/glm-5.3-flash"
+    },
+    "reviewer": {
+      "model": "zai-coding-plan/glm-5.3"
+    }
+  },
+  "plugin": [
+    [
+      "opencode-orchestrator",
+      {
+        "agentConcurrency": {
+          "commander": 1,
+          "planner": 10,
+          "worker": 10,
+          "reviewer": 10
+        },
+        "missionLoop": {
+          "ledger": true,
+          "markdownMemory": true
+        }
+      }
+    ]
+  ]
 }
