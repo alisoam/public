@@ -4,4 +4,5 @@
 /.env
 /.envrc
 
+**/.opencode/*
 **/.claude/settings.local.json
