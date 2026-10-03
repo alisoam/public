@@ -166,6 +166,16 @@
         "openscad-mcp"
       ],
       "enabled": false
+    },
+    "kicad": {
+      "type": "local",
+      "command": ["node", "{env:HOME}/git/KiCAD-MCP-Server/dist/index.js"],
+      "environment": {
+        "KICAD_PYTHON": "{env:HOME}/git/KiCAD-MCP-Server/.venv/bin/python",
+        "PYTHONPATH": "/usr/lib/python3/dist-packages",
+        "LOG_LEVEL": "info"
+      },
+      "enabled": true
     }
   },
   "provider": {
