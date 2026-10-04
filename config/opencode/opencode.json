@@ -175,7 +175,7 @@
         "PYTHONPATH": "/usr/lib/python3/dist-packages",
         "LOG_LEVEL": "info"
       },
-      "enabled": true
+      "enabled": false
     }
   },
   "provider": {
