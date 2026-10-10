@@ -127,19 +127,24 @@
       "url": "{env:DIVAR_COPILOT_MCP_URL}",
       "enabled": false
     },
-    "divar-dastyar-data-sql": {
+    "divar-observability": {
       "type": "remote",
-      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/sql",
+      "url": "{env:DIVAR_MCP_URL}/observability",
       "enabled": false
     },
-    "divar-dastyar-data-outline": {
+    "divar-development": {
       "type": "remote",
-      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/outline",
+      "url": "{env:DIVAR_MCP_URL}/development",
       "enabled": false
     },
-    "divar-dastyar-data-codesearch": {
+    "divar-data-analysis": {
       "type": "remote",
-      "url": "{env:DIVAR_DASTYAR_DATA_MCP_URL}/codesearch",
+      "url": "{env:DIVAR_MCP_URL}/data-analysis",
+      "enabled": false
+    },
+    "divar-platform": {
+      "type": "remote",
+      "url": "{env:DIVAR_MCP_URL}/platform",
       "enabled": false
     },
     "divar-metabase": {
