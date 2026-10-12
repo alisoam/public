@@ -19,3 +19,5 @@ libpam-ssh-agent-auth
 xclip
 ykman
 chkrootkit
+debsums
+apt-show-versions
