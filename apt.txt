@@ -18,4 +18,4 @@ docker-compose-v2
 libpam-ssh-agent-auth
 xclip
 ykman
-rkhunter
+chkrootkit
