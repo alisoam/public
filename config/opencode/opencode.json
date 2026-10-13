@@ -229,35 +229,6 @@
       }
     }
   },
-  "agent": {
-    "commander": {
-      "model": "openai/gpt-6-astra"
-    },
-    "planner": {
-      "model": "zai-coding-plan/glm-5.3"
-    },
-    "worker": {
-      "model": "zai-coding-plan/glm-5.3-flash"
-    },
-    "reviewer": {
-      "model": "zai-coding-plan/glm-5.3"
-    }
-  },
-  "plugin": [
-    [
-      "opencode-orchestrator",
-      {
-        "agentConcurrency": {
-          "commander": 1,
-          "planner": 10,
-          "worker": 10,
-          "reviewer": 10
-        },
-        "missionLoop": {
-          "ledger": true,
-          "markdownMemory": true
-        }
-      }
-    ]
-  ]
+  "agent": {},
+  "plugin": []
 }
