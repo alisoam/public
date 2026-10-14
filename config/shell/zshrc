@@ -5,7 +5,7 @@ source /usr/share/zsh-antigen/antigen.zsh
 export ZSH_THEME=""
 antigen use oh-my-zsh
 
-antigen bundle sindresorhus/pure@main
+antigen bundle sindresorhus/pure@v1.28.4
 zstyle ':prompt:pure:prompt:success' color green
 zstyle ':prompt:pure:prompt:error' color red
 

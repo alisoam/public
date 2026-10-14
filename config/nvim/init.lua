@@ -29,6 +29,20 @@ require("lazy").setup({
     end
   },
   {
+    "ojroques/nvim-osc52",
+    config = function()
+      require("osc52").setup {}
+      local function copy(lines)
+        require("osc52").copy(table.concat(lines, "\n"))
+      end
+      vim.g.clipboard = {
+        name = "osc52",
+        copy  = { ["+"] = copy, ["*"] = copy },
+        paste = { ["+"] = require("osc52").paste, ["*"] = require("osc52").paste },
+      }
+    end,
+  },
+  {
     "tpope/vim-sleuth",
     event = "BufReadPre",
   },
@@ -53,9 +67,31 @@ require("lazy").setup({
     end,
   },
   "airblade/vim-gitgutter",
-  "tpope/vim-fugitive",
+  {
+    "NeogitOrg/neogit",
+    lazy = true,
+    dependencies = {
+      -- Only one of these is needed.
+      "sindrets/diffview.nvim",        -- optional
+      "esmuellert/codediff.nvim",      -- optional
+
+      -- For a custom log pager
+      "m00qek/baleia.nvim",            -- optional
+
+      -- Only one of these is needed.
+      "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua",              -- optional
+      "nvim-mini/mini.pick",           -- optional
+      "folke/snacks.nvim",             -- optional
+    },
+    cmd = "Neogit",
+    keys = {
+      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" }
+    }
+  },
+  "mfussenegger/nvim-dap",
   "neovim/nvim-lspconfig",
-  -- "posva/vim-vue",,
+  "github/copilot.vim",
   {
     "fatih/vim-go",
     ft = "go",
@@ -90,70 +126,6 @@ require("lazy").setup({
       })
     end,
   },
-  {"mfussenegger/nvim-dap-python", ft = "py", dependencies = {"mfussenegger/nvim-dap"}},
-  "github/copilot.vim",
-  {
-    "carlos-algms/agentic.nvim",
-    opts = {
-      provider = "opencode-acp",
-      acp_providers = {
-        ["claude-agent-acp"] = {
-          env = {
-            ["claude-agent-acp"] = {
-              env = {
-                TZ = "Asia/Singapore",
-              },
-            },
-          },
-        },
-      },
-    },
-    keys = {
-      {
-        "<C-\\>",
-        function() require("agentic").toggle() end,
-        mode = { "n", "v", "i" },
-        desc = "Toggle Agentic Chat"
-      },
-      {
-        "<C-'>",
-        function() require("agentic").add_selection_or_file_to_context() end,
-        mode = { "n", "v" },
-        desc = "Add file or selection to Agentic to Context"
-      },
-      {
-        "<C-,>",
-        function() require("agentic").new_session() end,
-        mode = { "n", "v", "i" },
-        desc = "New Agentic Session"
-      },
-      {
-        "<A-i>r", -- ai Restore
-        function()
-            require("agentic").restore_session()
-        end,
-        desc = "Agentic Restore session",
-        silent = true,
-        mode = { "n", "v", "i" },
-      },
-      {
-        "<leader>ad", -- ai Diagnostics
-        function()
-            require("agentic").add_current_line_diagnostics()
-        end,
-        desc = "Add current line diagnostic to Agentic",
-        mode = { "n" },
-      },
-      {
-        "<leader>aD", -- ai all Diagnostics
-        function()
-            require("agentic").add_buffer_diagnostics()
-        end,
-        desc = "Add all buffer diagnostics to Agentic",
-        mode = { "n" },
-      },
-    },
-  },
   {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
@@ -164,28 +136,6 @@ require("lazy").setup({
       --vim.g.molten_image_provider = "image.nvim"
       vim.g.molten_output_win_max_height = 20
     end,
-  },
-  {
-    "NeogitOrg/neogit",
-    lazy = true,
-    dependencies = {
-      -- Only one of these is needed.
-      "sindrets/diffview.nvim",        -- optional
-      "esmuellert/codediff.nvim",      -- optional
-
-      -- For a custom log pager
-      "m00qek/baleia.nvim",            -- optional
-
-      -- Only one of these is needed.
-      "nvim-telescope/telescope.nvim", -- optional
-      "ibhagwan/fzf-lua",              -- optional
-      "nvim-mini/mini.pick",           -- optional
-      "folke/snacks.nvim",             -- optional
-    },
-    cmd = "Neogit",
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" }
-    }
   },
 })
 

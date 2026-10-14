@@ -22,12 +22,6 @@ if [ -e "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
-if [ -e "$HOME/go" ]; then
-    export GOPATH="$HOME/gopath"
-    export GOHOME="$HOME/go"
-    export PATH="$PATH:/usr/local/go/bin:$GOHOME/bin:$GOPATH/bin/"
-fi
-
 if [ -n "$( command -v goenv )" ]; then
     eval "$(goenv init -)"
 fi
@@ -37,11 +31,147 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
-export KUBE_EDITOR=nvim
+snvim() (
+    local project="${PWD:A}"
+    local home="${HOME:A}"
+  
+    if [[ "$project" == "$home" || "$project" == "/" ||
+          "$home" == "$project"/* ]]; then
+        print -u2 "Refusing unsafe project directory: $project"
+        return 1
+    fi
+
+    local tmpdir=$(mktemp -d /tmp/opencode-XXXXXXXX) || exit 1
+    trap 'rm -rf -- "$tmpdir"' EXIT
+
+    local nvim_bin="$(whence -p nvim)" || return 1
+    local brew_prefix="$(brew --prefix)" || return 1
+
+    bwrap \
+        --share-net \
+        --unshare-pid \
+        --die-with-parent \
+        --unshare-ipc \
+        --new-session \
+        --clearenv \
+        --setenv HOME "$HOME" \
+        --setenv PATH "$PATH" \
+        --setenv TERM "$TERM" \
+        --setenv USER "$USER" \
+        --setenv HTTP_PROXY "$HTTP_PROXY" \
+        --setenv http_proxy "$http_proxy" \
+        --setenv HTTPS_PROXY "$HTTPS_PROXY" \
+        --setenv https_proxy "$https_proxy" \
+        --setenv NO_PROXY "$NO_PROXY" \
+        --setenv no_proxy "$no_proxy" \
+        --setenv ALL_PROXY "$ALL_PROXY" \
+        --setenv all_proxy "$all_proxy" \
+        --setenv LANG "${LANG:-C.UTF-8}" \
+        --proc /proc \
+        --dev /dev \
+        --bind "$tmpdir" /tmp \
+        --ro-bind /usr /usr \
+        --ro-bind /lib /lib \
+        --ro-bind /lib64 /lib64 \
+        --ro-bind /bin /bin \
+        --ro-bind /etc/resolv.conf /etc/resolv.conf \
+        --ro-bind-try /etc/hosts /etc/hosts \
+        --ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf \
+        --ro-bind /etc/ssl /etc/ssl \
+        --ro-bind "$brew_prefix" "$brew_prefix" \
+        --setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR" \
+        --setenv WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
+        --ro-bind-try "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" \
+        --bind "$project" "$project" \
+        --perms 0700 --tmpfs "$HOME/.config" \
+        --perms 0700 --tmpfs "$HOME/.local" \
+        --perms 0700 --tmpfs "$HOME/.ssh/" \
+        --perms 0700 --tmpfs "$HOME/.gnupg/" \
+        --perms 0700 --tmpfs "$HOME/.kube/" \
+        --perms 0700 --tmpfs "$HOME/.aws/" \
+        --perms 0700 --tmpfs "$HOME/.cache/" \
+        --ro-bind-try "$HOME/.local/bin" "$HOME/.local/bin" \
+        --ro-bind-try "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind-try "$HOME/.config/nvim" "$HOME/.config/nvim" \
+        --bind-try "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
+        --bind-try "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
+        --chdir "$project" \
+        "$nvim_bin" "$@"
+)
+
+sopencode() (
+    local project="${PWD:A}"
+    local home="${HOME:A}"
+  
+    if [[ "$project" == "$home" || "$project" == "/" ||
+          "$home" == "$project"/* ]]; then
+        print -u2 "Refusing unsafe project directory: $project"
+        return 1
+    fi
+
+    local tmpdir=$(mktemp -d /tmp/opencode-XXXXXXXX) || exit 1
+    trap 'rm -rf -- "$tmpdir"' EXIT
+
+    local opencode_bin="$(whence -p opencode)" || return 1
+    local brew_prefix="$(brew --prefix)" || return 1
+
+    bwrap \
+        --share-net \
+        --unshare-pid \
+        --die-with-parent \
+        --unshare-ipc \
+        --new-session \
+        --clearenv \
+        --setenv HOME "$HOME" \
+        --setenv PATH "$PATH" \
+        --setenv TERM "$TERM" \
+        --setenv USER "$USER" \
+        --setenv LANG "${LANG:-C.UTF-8}" \
+        --setenv HTTP_PROXY "$HTTP_PROXY" \
+        --setenv http_proxy "$http_proxy" \
+        --setenv HTTPS_PROXY "$HTTPS_PROXY" \
+        --setenv https_proxy "$https_proxy" \
+        --setenv NO_PROXY "$NO_PROXY" \
+        --setenv no_proxy "$no_proxy" \
+        --setenv ALL_PROXY "$ALL_PROXY" \
+        --setenv all_proxy "$all_proxy" \
+        --proc /proc \
+        --dev /dev \
+        --bind "$tmpdir" /tmp \
+        --ro-bind /usr /usr \
+        --ro-bind /lib /lib \
+        --ro-bind /lib64 /lib64 \
+        --ro-bind /bin /bin \
+        --ro-bind /etc/resolv.conf /etc/resolv.conf \
+        --ro-bind-try /etc/hosts /etc/hosts \
+        --ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf \
+        --ro-bind /etc/ssl /etc/ssl \
+        --ro-bind "$brew_prefix" "$brew_prefix" \
+        --setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR" \
+        --setenv WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
+        --ro-bind-try "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" \
+        --bind "$project" "$project" \
+        --perms 0700 --tmpfs "$HOME/.config" \
+        --perms 0700 --tmpfs "$HOME/.local" \
+        --perms 0700 --tmpfs "$HOME/.ssh/" \
+        --perms 0700 --tmpfs "$HOME/.gnupg/" \
+        --perms 0700 --tmpfs "$HOME/.kube/" \
+        --perms 0700 --tmpfs "$HOME/.aws/" \
+        --perms 0700 --tmpfs "$HOME/.cache/" \
+        --ro-bind-try "$HOME/.local/bin" "$HOME/.local/bin" \
+        --ro-bind-try "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind-try "$HOME/.config/opencode" "$HOME/.config/opencode" \
+        --ro-bind-try "$HOME/.cache/opencode" "$HOME/.cache/opencode" \
+        --bind-try "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
+        --bind-try "$HOME/.local/state/opencode" "$HOME/.local/state/opencode" \
+        --chdir "$project" \
+        "$opencode_bin" --standalone "$@"
+)
+
+export KUBE_EDITOR=snvim
 
 alias gdb=gdb-multiarch
-alias reset='reset;[ -z "$TMUX" ] || tmux clear-history'
-alias vim='nvim'
+alias reset='reset;[ -z "$TMUX" ] || tmux clear-history;'
 
 alias docker='sudo docker'
 alias d='docker'
@@ -49,7 +179,8 @@ alias dr='docker run'
 alias dc='docker compose'
 alias dcr='docker compose run --rm -it'
 alias dce='docker compose exec -it'
-alias v='nvim'
+alias v='snvim'
+alias o='sopencode'
 alias k='kubectl'
 alias kg='kubectl get'
 alias ke='kubectl edit'
@@ -60,6 +191,9 @@ alias kgr='kubectl get rs'
 alias kgs='kubectl get sts'
 alias kex='kubectl exec -it'
 alias grp='grep -nwre'
+
+alias nvim='echo "no :(("'
+alias opencode='echo "no :(("'
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
