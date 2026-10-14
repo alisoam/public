@@ -1,4 +1,5 @@
 unattended-upgrades
+ansible
 apt-listchanges
 git
 tmux
