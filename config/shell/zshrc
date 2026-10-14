@@ -1,8 +1,14 @@
 source ~/.profile
 
-source /usr/share/zsh-antigen/antigen.zsh
+fpath=(${fpath:#/home/linuxbrew/.linuxbrew/share/zsh/site-functions})
+fpath=(${fpath:#/home/linuxbrew/.linuxbrew/share/zsh})
 
 export ZSH_THEME=""
+export PURE_GIT_PULL=0
+export GIT_AUTO_FETCH_INTERVAL=1200
+
+source /usr/share/zsh-antigen/antigen.zsh
+
 antigen use oh-my-zsh
 
 antigen bundle sindresorhus/pure@v1.28.4
@@ -12,29 +18,19 @@ zstyle ':prompt:pure:prompt:error' color red
 antigen bundle git
 antigen bundle git-auto-fetch
 antigen bundle zsh-users/zsh-completions
-antigen bundle pip
-antigen bundle command-not-found
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+autoload -Uz compinit && compinit -i
 
 antigen apply
 
-KEYTIMEOUT=1
-bindkey -v
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
-
-autoload -U +X compinit && compinit
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
-
-[[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias -- zsh)"
+[[ -x "$(command -v kubectl)" ]] && source <(kubectl completion zsh)
 
 [[ -x "$(command -v direnv)" ]] && eval "$(direnv hook zsh)"
 
 [[ -x "$(command -v uv)" ]] && eval "$(uv generate-shell-completion zsh)"
 
-export PURE_GIT_PULL=0
-export GIT_AUTO_FETCH_INTERVAL=1200
-
-plugins=(
-  git-auto-fetch
-)
+KEYTIMEOUT=1
+bindkey -v
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search

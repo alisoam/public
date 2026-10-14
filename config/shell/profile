@@ -2,14 +2,6 @@ if [ -e "$HOME/.secrets" ]; then
     source "$HOME/.secrets"
 fi
 
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
 if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
@@ -31,6 +23,10 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 snvim() (
     local project="${PWD:A}"
     local home="${HOME:A}"
@@ -48,10 +44,9 @@ snvim() (
     local brew_prefix="$(brew --prefix)" || return 1
 
     bwrap \
+        --unshare-all \
         --share-net \
-        --unshare-pid \
         --die-with-parent \
-        --unshare-ipc \
         --new-session \
         --clearenv \
         --setenv HOME "$HOME" \
@@ -116,10 +111,9 @@ sopencode() (
     local brew_prefix="$(brew --prefix)" || return 1
 
     bwrap \
+        --unshare-all \
         --share-net \
-        --unshare-pid \
         --die-with-parent \
-        --unshare-ipc \
         --new-session \
         --clearenv \
         --setenv HOME "$HOME" \
@@ -170,10 +164,12 @@ sopencode() (
 
 export KUBE_EDITOR=snvim
 
+alias sbrew='cd / && sudo -u linuxbrew -H /home/linuxbrew/.linuxbrew/bin/brew'
+alias docker='sudo docker'
+
 alias gdb=gdb-multiarch
 alias reset='reset;[ -z "$TMUX" ] || tmux clear-history;'
 
-alias docker='sudo docker'
 alias d='docker'
 alias dr='docker run'
 alias dc='docker compose'
