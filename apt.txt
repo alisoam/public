@@ -21,3 +21,5 @@ ykman
 chkrootkit
 debsums
 apt-show-versions
+bubblewrap
+vim
