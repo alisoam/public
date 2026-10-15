@@ -2,6 +2,21 @@ if [ -e "$HOME/.secrets" ]; then
     source "$HOME/.secrets"
 fi
 
+export DOCKER_CONFIG="$HOME/.config/docker"
+mkdir -p "$DOCKER_CONFIG"
+
+export PYTHONHISTFILE="$HOME/.local/state/python/history"
+mkdir -p "$(dirname "$PYTHONHISTFILE")"
+export IPYTHONDIR="$HOME/.config/ipython"
+mkdir -p "$IPYTHONDIR"
+
+export BUN_INSTALL="$HOME/.local/share/bun"
+mkdir -p "$BUN_INSTALL"
+
+export GRADLE_USER_HOME="$HOME/.local/share/gradle"
+mkdir -p "$GRADLE_USER_HOME"
+
+
 if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
@@ -15,6 +30,7 @@ if [ -e "$HOME/.cargo/env" ]; then
 fi
 
 if [ -n "$( command -v goenv )" ]; then
+    export GOENV_ROOT="$HOME/.local/share/goenv"
     eval "$(goenv init -)"
 fi
 
@@ -47,7 +63,6 @@ snvim() (
         --unshare-all \
         --share-net \
         --die-with-parent \
-        --new-session \
         --clearenv \
         --setenv HOME "$HOME" \
         --setenv PATH "$PATH" \
@@ -114,7 +129,6 @@ sopencode() (
         --unshare-all \
         --share-net \
         --die-with-parent \
-        --new-session \
         --clearenv \
         --setenv HOME "$HOME" \
         --setenv PATH "$PATH" \

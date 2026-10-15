@@ -167,7 +167,8 @@ class Directory(Config):
 
 
 all_configs: list[Config] = [
-    File("shell", "shell/zshrc", "~/.zshrc"),
+    File("shell", "shell/zshenv", "~/.zshenv"),
+    File("shell", "shell/zshrc", "~/.config/zsh/.zshrc"),
     File("shell", "shell/bashrc", "~/.bashrc"),
     File("shell", "shell/profile", "~/.profile"),
 

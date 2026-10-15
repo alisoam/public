@@ -3,6 +3,16 @@ source ~/.profile
 fpath=(${fpath:#/home/linuxbrew/.linuxbrew/share/zsh/site-functions})
 fpath=(${fpath:#/home/linuxbrew/.linuxbrew/share/zsh})
 
+export HISTFILE="$HOME/.local/state/zsh/history"
+mkdir -p "$(dirname "$HISTFILE")"
+
+
+export ZSH_COMPDUMP="$HOME/.cache/zsh/compdump"
+mkdir -p "$(dirname "$ZSH_COMPDUMP")"
+
+export ADOTDIR="$HOME/.local/share/antigen"
+mkdir -p mkdir -p "$ADOTDIR"
+
 export ZSH_THEME=""
 export PURE_GIT_PULL=0
 export GIT_AUTO_FETCH_INTERVAL=1200
@@ -20,7 +30,7 @@ antigen bundle git-auto-fetch
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-autoload -Uz compinit && compinit -i
+autoload -Uz compinit && compinit -z
 
 antigen apply
 
