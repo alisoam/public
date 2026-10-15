@@ -16,7 +16,6 @@ mkdir -p "$BUN_INSTALL"
 export GRADLE_USER_HOME="$HOME/.local/share/gradle"
 mkdir -p "$GRADLE_USER_HOME"
 
-
 if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
