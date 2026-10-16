@@ -3,7 +3,7 @@
 	name = ali.sorouramini
 [core]
 	editor = nvim
-[url "git@github.com:alisoam/public.git"]
-	pushInsteadOf = https://github.com/alisoam/public.git
+[url "git@github.com:"]
+	insteadof = https://github.com/
 [url "git@git.divar.cloud:"]
-	insteadOf = https://git.divar.cloud/
+	insteadof = https://git.divar.cloud/
