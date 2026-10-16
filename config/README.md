@@ -16,6 +16,16 @@
   # apt install kitty
   ```
 
+- sbox.py deps: `bubblewrap`, `socat` and `python3` (>= 3.8, stdlib only).
+  The default allowlisted mode runs a built-in SOCKS5 + HTTP-CONNECT proxy
+  (asyncio) on the host — no third-party proxy needed. Destinations are
+  allowlisted before any DNS lookup, and hostnames resolving to private,
+  loopback or link-local addresses are rejected. `--net` mode (shared host
+  network, no allowlist) needs bwrap only
+  ``` sh
+  # apt install bubblewrap socat python3
+  ```
+
 # RUN
 ``` sh
 $ chmod +x ./sync.sh
