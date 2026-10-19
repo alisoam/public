@@ -167,6 +167,7 @@ sopencode() (
         --perms 0700 --tmpfs "$HOME/.cache/" \
         --ro-bind-try "$HOME/.local/bin" "$HOME/.local/bin" \
         --ro-bind-try "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind-try "$HOME/.config/git" "$HOME/.config/git" \
         --ro-bind-try "$HOME/.config/opencode" "$HOME/.config/opencode" \
         --ro-bind-try "$HOME/.cache/opencode" "$HOME/.cache/opencode" \
         --bind-try "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
