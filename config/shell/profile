@@ -29,6 +29,7 @@ if [ -e "$HOME/.cargo/env" ]; then
 fi
 
 if [ -n "$( command -v goenv )" ]; then
+    export GOPATH="$HOME/.local/share/go"
     export GOENV_ROOT="$HOME/.local/share/goenv"
     eval "$(goenv init -)"
 fi
