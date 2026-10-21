@@ -30,7 +30,9 @@ fi
 
 if [ -n "$( command -v goenv )" ]; then
     export GOPATH="$HOME/.local/share/go"
+    mkdir -p "$GOPATH"
     export GOENV_ROOT="$HOME/.local/share/goenv"
+    mkdir -p "$GOENV_ROOT"
     eval "$(goenv init -)"
 fi
 
@@ -81,6 +83,7 @@ snvim() (
         --setenv ALL_PROXY "$ALL_PROXY" \
         --setenv all_proxy "$all_proxy" \
         --setenv LANG "${LANG:-C.UTF-8}" \
+        --setenv GOPATH "$GOPATH" \
         --setenv GOENV_ROOT "$GOENV_ROOT" \
         --setenv GOENV_SHELL "$GOENV_SHELL" \
         --proc /proc \
@@ -105,15 +108,14 @@ snvim() (
         --perms 0700 --tmpfs "$HOME/.gnupg/" \
         --perms 0700 --tmpfs "$HOME/.kube/" \
         --perms 0700 --tmpfs "$HOME/.aws/" \
-        --overlay-src "$HOME/.local/share" \
-        --tmp-overlay "$HOME/.local/share" \
-        --overlay-src "$HOME/.cache" \
-        --tmp-overlay "$HOME/.cache" \
         --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
         --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind "$HOME/.local/share/go" "$HOME/.local/share/go" \
+        --ro-bind "$HOME/.local/share/goenv" "$HOME/.local/share/goenv" \
         --ro-bind "$HOME/.config/nvim" "$HOME/.config/nvim" \
         --bind "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
         --bind "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
+        --bind "$HOME/.cache" "$HOME/.cache" \
         --chdir "$project" \
         "$nvim_bin" "$@"
 )
