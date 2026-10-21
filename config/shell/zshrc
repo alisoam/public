@@ -1,3 +1,4 @@
+export GOENV_SHELL=zsh
 source ~/.profile
 
 fpath=(${fpath:#/home/linuxbrew/.linuxbrew/share/zsh/site-functions})

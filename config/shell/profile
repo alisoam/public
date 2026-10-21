@@ -38,9 +38,8 @@ if [ -e "$HOME/esp/xtensa-esp32-elf/bin" ]; then
     export PATH="$PATH:$HOME/esp/xtensa-esp-elf/bin:$IDF_PATH/tools"
 fi
 
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+mkdir -p $HOME/.local/bin
+PATH="$HOME/.local/bin:$PATH"
 
 snvim() (
     local project="${PWD:A}"
@@ -57,6 +56,11 @@ snvim() (
 
     local nvim_bin="$(whence -p nvim)" || return 1
     local brew_prefix="$(brew --prefix)" || return 1
+
+    mkdir -p "$HOME/.cache"
+    mkdir -p "$HOME/.config/nvim"
+    mkdir -p "$HOME/.local/share/nvim"
+    mkdir -p "$HOME/.local/state/nvim"
 
     bwrap \
         --unshare-all \
@@ -76,6 +80,8 @@ snvim() (
         --setenv ALL_PROXY "$ALL_PROXY" \
         --setenv all_proxy "$all_proxy" \
         --setenv LANG "${LANG:-C.UTF-8}" \
+        --setenv GOENV_ROOT "$GOENV_ROOT" \
+        --setenv GOENV_SHELL "$GOENV_SHELL" \
         --proc /proc \
         --dev /dev \
         --bind "$tmpdir" /tmp \
@@ -98,12 +104,15 @@ snvim() (
         --perms 0700 --tmpfs "$HOME/.gnupg/" \
         --perms 0700 --tmpfs "$HOME/.kube/" \
         --perms 0700 --tmpfs "$HOME/.aws/" \
-        --perms 0700 --tmpfs "$HOME/.cache/" \
-        --ro-bind-try "$HOME/.local/bin" "$HOME/.local/bin" \
-        --ro-bind-try "$HOME/.local/lib" "$HOME/.local/lib" \
-        --ro-bind-try "$HOME/.config/nvim" "$HOME/.config/nvim" \
-        --bind-try "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
-        --bind-try "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
+        --overlay-src "$HOME/.local/share" \
+        --tmp-overlay "$HOME/.local/share" \
+        --overlay-src "$HOME/.cache" \
+        --tmp-overlay "$HOME/.cache" \
+        --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
+        --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind "$HOME/.config/nvim" "$HOME/.config/nvim" \
+        --bind "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
+        --bind "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
         --chdir "$project" \
         "$nvim_bin" "$@"
 )
@@ -176,7 +185,7 @@ sopencode() (
         "$opencode_bin" --standalone "$@"
 )
 
-export KUBE_EDITOR=snvim
+export KUBE_EDITOR=/bin/vim
 
 alias sbrew='cd / && sudo -u linuxbrew -H /home/linuxbrew/.linuxbrew/bin/brew'
 alias docker='sudo docker'
