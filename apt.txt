@@ -24,3 +24,4 @@ debsums
 apt-show-versions
 bubblewrap
 vim
+socat
