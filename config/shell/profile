@@ -61,6 +61,7 @@ snvim() (
     local brew_prefix="$(brew --prefix)" || return 1
 
     mkdir -p "$HOME/.cache"
+    mkdir -p "$HOME/.config/git"
     mkdir -p "$HOME/.config/nvim"
     mkdir -p "$HOME/.local/share/nvim"
     mkdir -p "$HOME/.local/state/nvim"
@@ -112,6 +113,7 @@ snvim() (
         --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
         --ro-bind "$HOME/.local/share/go" "$HOME/.local/share/go" \
         --ro-bind "$HOME/.local/share/goenv" "$HOME/.local/share/goenv" \
+        --ro-bind "$HOME/.config/git" "$HOME/.config/git" \
         --ro-bind "$HOME/.config/nvim" "$HOME/.config/nvim" \
         --bind "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
         --bind "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
@@ -136,6 +138,12 @@ sopencode() (
     local opencode_bin="$(whence -p opencode)" || return 1
     local brew_prefix="$(brew --prefix)" || return 1
 
+    mkdir -p "$HOME/.cache"
+    mkdir -p "$HOME/.config/git"
+    mkdir -p "$HOME/.config/opencode"
+    mkdir -p "$HOME/.local/share/opencode"
+    mkdir -p "$HOME/.local/state/opencode"
+
     bwrap \
         --unshare-all \
         --share-net \
@@ -154,6 +162,9 @@ sopencode() (
         --setenv no_proxy "$no_proxy" \
         --setenv ALL_PROXY "$ALL_PROXY" \
         --setenv all_proxy "$all_proxy" \
+        --setenv GOPATH "$GOPATH" \
+        --setenv GOENV_ROOT "$GOENV_ROOT" \
+        --setenv GOENV_SHELL "$GOENV_SHELL" \
         --proc /proc \
         --dev /dev \
         --bind "$tmpdir" /tmp \
@@ -176,14 +187,15 @@ sopencode() (
         --perms 0700 --tmpfs "$HOME/.gnupg/" \
         --perms 0700 --tmpfs "$HOME/.kube/" \
         --perms 0700 --tmpfs "$HOME/.aws/" \
-        --perms 0700 --tmpfs "$HOME/.cache/" \
-        --ro-bind-try "$HOME/.local/bin" "$HOME/.local/bin" \
-        --ro-bind-try "$HOME/.local/lib" "$HOME/.local/lib" \
-        --ro-bind-try "$HOME/.config/git" "$HOME/.config/git" \
-        --ro-bind-try "$HOME/.config/opencode" "$HOME/.config/opencode" \
-        --ro-bind-try "$HOME/.cache/opencode" "$HOME/.cache/opencode" \
+        --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
+        --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
+        --ro-bind "$HOME/.config/git" "$HOME/.config/git" \
+        --ro-bind "$HOME/.local/share/go" "$HOME/.local/share/go" \
+        --ro-bind "$HOME/.local/share/goenv" "$HOME/.local/share/goenv" \
+        --ro-bind "$HOME/.config/opencode" "$HOME/.config/opencode" \
         --bind-try "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
         --bind-try "$HOME/.local/state/opencode" "$HOME/.local/state/opencode" \
+        --bind "$HOME/.cache" "$HOME/.cache" \
         --chdir "$project" \
         "$opencode_bin" --standalone "$@"
 )

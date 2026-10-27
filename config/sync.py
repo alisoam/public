@@ -182,8 +182,6 @@ all_configs: list[Config] = [
     Directory("kitty", "kitty", "~/.config/kitty"),
 
     Directory("opencode", "opencode", "~/.config/opencode"),
-
-    Directory("bin", "bin", "~/.local/bin"),
 ]
 
 
