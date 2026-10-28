@@ -190,11 +190,11 @@ sopencode() (
         --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
         --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
         --ro-bind "$HOME/.config/git" "$HOME/.config/git" \
-        --ro-bind "$HOME/.local/share/go" "$HOME/.local/share/go" \
-        --ro-bind "$HOME/.local/share/goenv" "$HOME/.local/share/goenv" \
+	--overlay-src "$HOME/.local/share/go" --tmp-overlay "$HOME/.local/share/go" \
+	--overlay-src "$HOME/.local/share/goenv" --tmp-overlay "$HOME/.local/share/goenv" \
         --ro-bind "$HOME/.config/opencode" "$HOME/.config/opencode" \
-        --bind-try "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
-        --bind-try "$HOME/.local/state/opencode" "$HOME/.local/state/opencode" \
+        --bind "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
+        --bind "$HOME/.local/state/opencode" "$HOME/.local/state/opencode" \
         --bind "$HOME/.cache" "$HOME/.cache" \
         --chdir "$project" \
         "$opencode_bin" --standalone "$@"
