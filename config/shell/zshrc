@@ -16,7 +16,6 @@ mkdir -p mkdir -p "$ADOTDIR"
 
 export ZSH_THEME=""
 export PURE_GIT_PULL=0
-export GIT_AUTO_FETCH_INTERVAL=1200
 
 source /usr/share/zsh-antigen/antigen.zsh
 
@@ -27,7 +26,6 @@ zstyle ':prompt:pure:prompt:success' color green
 zstyle ':prompt:pure:prompt:error' color red
 
 antigen bundle git
-antigen bundle git-auto-fetch
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
