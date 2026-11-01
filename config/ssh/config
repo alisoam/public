@@ -20,7 +20,7 @@ PasswordAuthentication no
 
 ControlMaster auto
 ControlPath ~/.ssh/control/%r@%h:%p
-ControlPersist 30m
+ControlPersist 0m
 
 Include ~/.ssh/config.d/*
 
