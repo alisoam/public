@@ -12,7 +12,7 @@ export ZSH_COMPDUMP="$HOME/.cache/zsh/compdump"
 mkdir -p "$(dirname "$ZSH_COMPDUMP")"
 
 export ADOTDIR="$HOME/.local/share/antigen"
-mkdir -p mkdir -p "$ADOTDIR"
+mkdir -p "$ADOTDIR"
 
 export ZSH_THEME=""
 export PURE_GIT_PULL=0
