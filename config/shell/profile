@@ -200,6 +200,86 @@ sopencode() (
         "$opencode_bin" --standalone "$@"
 )
 
+# Read-only config/tool trees, disposable state overlays, private tmpfs home,
+# allowlisted egress, ssh-agent forwarding when a socket exists.
+
+sd() {
+    set -eu
+
+    local project=$PWD
+    # Keep whatever predicate the original bwrap wrapper used.
+    if [[ ! -d $project || $project == $HOME || $project == / ]]; then
+        printf 'Refusing unsafe project directory: %s\n' "$project" >&2
+        return 1
+    fi
+
+    local sbox_bin=${SBOX_BIN:-sbox}
+    local brew_prefix=${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}
+    # sbox forwards the host PATH verbatim; make sure brew + ~/.local/bin are on it.
+    local -x PATH="$brew_prefix/bin:$brew_prefix/sbin:$HOME/.local/bin:$PATH"
+
+    # Overlay sources must exist (the bwrap wrapper did the same mkdir -p).
+    mkdir -p "$HOME/.cache" \
+        "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/nvim" "$HOME/.config/opencode" \
+        "$HOME/.local/state/zsh" "$HOME/.local/state/nvim" "$HOME/.local/state/opencode" \
+        "$HOME/.local/share/antigen" "$HOME/.local/share/go" "$HOME/.local/share/goenv" \
+        "$HOME/.local/share/nvim" "$HOME/.local/share/opencode" "$HOME/.local/bin"
+
+    local -a args
+    args=(
+        -a github.com -a git.divar.cloud
+        --overlay-mode single
+        -r "$brew_prefix"
+        -r "$HOME/.local/bin"
+        -r "$HOME/.profile"
+        -r "$HOME/.zshenv"
+        -r "$HOME/.config/zsh"
+        -r "$HOME/.config/git"
+	-r "$HOME/.config/tmux"
+        -r "$HOME/.config/nvim"
+        -r "$HOME/.config/opencode"
+        --overlay "$HOME/.cache"
+        --overlay "$HOME/.local/state/zsh"
+        --overlay "$HOME/.local/share/antigen"
+        --overlay "$HOME/.local/share/go"
+        --overlay "$HOME/.local/share/goenv"
+        --overlay "$HOME/.local/state/nvim"
+        --overlay "$HOME/.local/share/nvim"
+        --overlay "$HOME/.local/state/opencode"
+        --overlay "$HOME/.local/share/opencode"
+        --overlay "$project"
+        --env "ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}"
+        --env SHELL=/bin/zsh
+        --env EDITOR=nvim
+        --env VISUAL=nvim
+    )
+    # git-over-ssh host verification (noninteractive launches fail closed without it).
+    if [[ -f $HOME/.ssh/known_hosts ]]; then
+        args+=(-r "$HOME/.ssh/known_hosts")
+    fi
+    # Forwarding an unset host variable is a hard error in sbox — forward only what exists.
+    local name
+    for name in GOPATH GOENV_ROOT GOENV_SHELL TERMINFO TERMINFO_DIRS COLORTERM; do
+        if [[ -v $name ]]; then
+            args+=(--env "$name")
+        fi
+    done
+    if [[ -S ${SSH_AUTH_SOCK:-} ]]; then
+        args+=(--ssh-agent)
+    fi
+
+    if (( $# == 0 )); then
+        set -- tmux new -A -s sandbox
+    fi
+
+    command "$sbox_bin" "${args[@]}" -- /bin/sh -eu -c '
+        umask 077
+        mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+        exec "$@"
+    ' sbox-dev "$@"
+}
+
+
 export KUBE_EDITOR=/bin/vim
 
 alias sbrew='cd / && sudo -u linuxbrew -H /home/linuxbrew/.linuxbrew/bin/brew'
