@@ -44,162 +44,6 @@ fi
 mkdir -p $HOME/.local/bin
 PATH="$HOME/.local/bin:$PATH"
 
-snvim() (
-    local project="${PWD:A}"
-    local home="${HOME:A}"
-  
-    if [[ "$project" == "$home" || "$project" == "/" ||
-          "$home" == "$project"/* ]]; then
-        print -u2 "Refusing unsafe project directory: $project"
-        return 1
-    fi
-
-    local tmpdir=$(mktemp -d /tmp/opencode-XXXXXXXX) || exit 1
-    trap 'rm -rf -- "$tmpdir"' EXIT
-
-    local nvim_bin="$(whence -p nvim)" || return 1
-    local brew_prefix="$(brew --prefix)" || return 1
-
-    mkdir -p "$HOME/.cache"
-    mkdir -p "$HOME/.config/git"
-    mkdir -p "$HOME/.config/nvim"
-    mkdir -p "$HOME/.local/share/nvim"
-    mkdir -p "$HOME/.local/state/nvim"
-
-    bwrap \
-        --unshare-all \
-        --share-net \
-        --die-with-parent \
-        --clearenv \
-        --setenv HOME "$HOME" \
-        --setenv PATH "$PATH" \
-        --setenv TERM "$TERM" \
-        --setenv USER "$USER" \
-        --setenv HTTP_PROXY "$HTTP_PROXY" \
-        --setenv http_proxy "$http_proxy" \
-        --setenv HTTPS_PROXY "$HTTPS_PROXY" \
-        --setenv https_proxy "$https_proxy" \
-        --setenv NO_PROXY "$NO_PROXY" \
-        --setenv no_proxy "$no_proxy" \
-        --setenv ALL_PROXY "$ALL_PROXY" \
-        --setenv all_proxy "$all_proxy" \
-        --setenv LANG "${LANG:-C.UTF-8}" \
-        --setenv GOPATH "$GOPATH" \
-        --setenv GOENV_ROOT "$GOENV_ROOT" \
-        --setenv GOENV_SHELL "$GOENV_SHELL" \
-        --proc /proc \
-        --dev /dev \
-        --bind "$tmpdir" /tmp \
-        --ro-bind /usr /usr \
-        --ro-bind /lib /lib \
-        --ro-bind /lib64 /lib64 \
-        --ro-bind /bin /bin \
-        --ro-bind /etc/resolv.conf /etc/resolv.conf \
-        --ro-bind-try /etc/hosts /etc/hosts \
-        --ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf \
-        --ro-bind /etc/ssl /etc/ssl \
-        --ro-bind "$brew_prefix" "$brew_prefix" \
-        --setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR" \
-        --setenv WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
-        --ro-bind-try "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" \
-        --bind "$project" "$project" \
-        --perms 0700 --tmpfs "$HOME/.config" \
-        --perms 0700 --tmpfs "$HOME/.local" \
-        --perms 0700 --tmpfs "$HOME/.ssh/" \
-        --perms 0700 --tmpfs "$HOME/.gnupg/" \
-        --perms 0700 --tmpfs "$HOME/.kube/" \
-        --perms 0700 --tmpfs "$HOME/.aws/" \
-        --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
-        --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
-        --ro-bind "$HOME/.local/share/go" "$HOME/.local/share/go" \
-        --ro-bind "$HOME/.local/share/goenv" "$HOME/.local/share/goenv" \
-        --ro-bind "$HOME/.config/git" "$HOME/.config/git" \
-        --ro-bind "$HOME/.config/nvim" "$HOME/.config/nvim" \
-        --bind "$HOME/.local/share/nvim" "$HOME/.local/share/nvim" \
-        --bind "$HOME/.local/state/nvim" "$HOME/.local/state/nvim" \
-        --bind "$HOME/.cache" "$HOME/.cache" \
-        --chdir "$project" \
-        "$nvim_bin" "$@"
-)
-
-sopencode() (
-    local project="${PWD:A}"
-    local home="${HOME:A}"
-  
-    if [[ "$project" == "$home" || "$project" == "/" ||
-          "$home" == "$project"/* ]]; then
-        print -u2 "Refusing unsafe project directory: $project"
-        return 1
-    fi
-
-    local tmpdir=$(mktemp -d /tmp/opencode-XXXXXXXX) || exit 1
-    trap 'rm -rf -- "$tmpdir"' EXIT
-
-    local opencode_bin="$(whence -p opencode)" || return 1
-    local brew_prefix="$(brew --prefix)" || return 1
-
-    mkdir -p "$HOME/.cache"
-    mkdir -p "$HOME/.config/git"
-    mkdir -p "$HOME/.config/opencode"
-    mkdir -p "$HOME/.local/share/opencode"
-    mkdir -p "$HOME/.local/state/opencode"
-
-    bwrap \
-        --unshare-all \
-        --share-net \
-        --die-with-parent \
-        --clearenv \
-        --setenv HOME "$HOME" \
-        --setenv PATH "$PATH" \
-        --setenv TERM "$TERM" \
-        --setenv USER "$USER" \
-        --setenv LANG "${LANG:-C.UTF-8}" \
-        --setenv HTTP_PROXY "$HTTP_PROXY" \
-        --setenv http_proxy "$http_proxy" \
-        --setenv HTTPS_PROXY "$HTTPS_PROXY" \
-        --setenv https_proxy "$https_proxy" \
-        --setenv NO_PROXY "$NO_PROXY" \
-        --setenv no_proxy "$no_proxy" \
-        --setenv ALL_PROXY "$ALL_PROXY" \
-        --setenv all_proxy "$all_proxy" \
-        --setenv GOPATH "$GOPATH" \
-        --setenv GOENV_ROOT "$GOENV_ROOT" \
-        --setenv GOENV_SHELL "$GOENV_SHELL" \
-        --proc /proc \
-        --dev /dev \
-        --bind "$tmpdir" /tmp \
-        --ro-bind /usr /usr \
-        --ro-bind /lib /lib \
-        --ro-bind /lib64 /lib64 \
-        --ro-bind /bin /bin \
-        --ro-bind /etc/resolv.conf /etc/resolv.conf \
-        --ro-bind-try /etc/hosts /etc/hosts \
-        --ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf \
-        --ro-bind /etc/ssl /etc/ssl \
-        --ro-bind "$brew_prefix" "$brew_prefix" \
-        --setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR" \
-        --setenv WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
-        --ro-bind-try "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" \
-        --bind "$project" "$project" \
-        --perms 0700 --tmpfs "$HOME/.config" \
-        --perms 0700 --tmpfs "$HOME/.local" \
-        --perms 0700 --tmpfs "$HOME/.ssh/" \
-        --perms 0700 --tmpfs "$HOME/.gnupg/" \
-        --perms 0700 --tmpfs "$HOME/.kube/" \
-        --perms 0700 --tmpfs "$HOME/.aws/" \
-        --ro-bind "$HOME/.local/bin" "$HOME/.local/bin" \
-        --ro-bind "$HOME/.local/lib" "$HOME/.local/lib" \
-        --ro-bind "$HOME/.config/git" "$HOME/.config/git" \
-	--overlay-src "$HOME/.local/share/go" --tmp-overlay "$HOME/.local/share/go" \
-	--overlay-src "$HOME/.local/share/goenv" --tmp-overlay "$HOME/.local/share/goenv" \
-        --ro-bind "$HOME/.config/opencode" "$HOME/.config/opencode" \
-        --bind "$HOME/.local/share/opencode" "$HOME/.local/share/opencode" \
-        --bind "$HOME/.local/state/opencode" "$HOME/.local/state/opencode" \
-        --bind "$HOME/.cache" "$HOME/.cache" \
-        --chdir "$project" \
-        "$opencode_bin" --standalone "$@"
-)
-
 # Read-only config/tool trees, disposable state overlays, private tmpfs home,
 # allowlisted egress, ssh-agent forwarding when a socket exists.
 
@@ -227,7 +71,12 @@ sd() {
 
     local -a args
     args=(
-        -a github.com -a git.divar.cloud
+        -a github.com
+        -a git.divar.cloud!private
+        -a hekmat.data.divar.cloud!private
+        -a mcp-gateway.divar.dev
+        -a z.ai
+        -a openai.com
         --overlay-mode single
         -r "$brew_prefix"
         -r "$HOME/.local/bin"
@@ -235,17 +84,19 @@ sd() {
         -r "$HOME/.zshenv"
         -r "$HOME/.config/zsh"
         -r "$HOME/.config/git"
-	-r "$HOME/.config/tmux"
+        -r "$HOME/.config/tmux"
         -r "$HOME/.config/nvim"
         -r "$HOME/.config/opencode"
         --overlay "$HOME/.cache"
         --overlay "$HOME/.local/state/zsh"
+        --overlay "$HOME/.local/state/opencode"
+        --overlay "$HOME/.local/state/nvim"
         --overlay "$HOME/.local/share/antigen"
+        --overlay "$HOME/.local/share/direnv"
+        --overlay "$HOME/.local/share/uv"
         --overlay "$HOME/.local/share/go"
         --overlay "$HOME/.local/share/goenv"
-        --overlay "$HOME/.local/state/nvim"
         --overlay "$HOME/.local/share/nvim"
-        --overlay "$HOME/.local/state/opencode"
         --overlay "$HOME/.local/share/opencode"
         --overlay "$project"
         --env "ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}"
@@ -293,8 +144,8 @@ alias dr='docker run'
 alias dc='docker compose'
 alias dcr='docker compose run --rm -it'
 alias dce='docker compose exec -it'
-alias v='snvim'
-alias o='sopencode'
+alias v='nvim'
+alias o='opencode'
 alias k='kubectl'
 alias kg='kubectl get'
 alias ke='kubectl edit'
@@ -305,9 +156,6 @@ alias kgr='kubectl get rs'
 alias kgs='kubectl get sts'
 alias kex='kubectl exec -it'
 alias grp='grep -nwre'
-
-alias nvim='echo "no :(("'
-alias opencode='echo "no :(("'
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
