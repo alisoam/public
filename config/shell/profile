@@ -130,11 +130,16 @@ sd() {
     ' sbox-dev "$@"
 }
 
+sbrew() (
+  tmpdir=$(mktemp -d) || exit
+  chmod 755 "$tmpdir"
+  trap 'rm -rf "$tmpdir"' EXIT
+
+  cd "$tmpdir" || exit
+  sudo -u linuxbrew -H /home/linuxbrew/.linuxbrew/bin/brew "$@"
+)
 
 export KUBE_EDITOR=/bin/vim
-
-alias sbrew='cd / && sudo -u linuxbrew -H /home/linuxbrew/.linuxbrew/bin/brew'
-alias docker='sudo docker'
 
 alias gdb=gdb-multiarch
 alias reset='reset;[ -z "$TMUX" ] || tmux clear-history;'
