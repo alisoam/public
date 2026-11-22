@@ -47,7 +47,7 @@ PATH="$HOME/.local/bin:$PATH"
 # Read-only config/tool trees, disposable state overlays, private tmpfs home,
 # allowlisted egress, ssh-agent forwarding when a socket exists.
 
-sd() {
+sd() (
     set -eu
 
     local project=$PWD
@@ -71,12 +71,12 @@ sd() {
 
     local -a args
     args=(
-        -a github.com
         -a git.divar.cloud!private
         -a hekmat.data.divar.cloud!private
-        -a mcp-gateway.divar.dev
-        -a z.ai
+        -a mcp-gateway.divar.dev!private
+        -a github.com
         -a openai.com
+        -a z.ai
         --overlay-mode single
         -r "$brew_prefix"
         -r "$HOME/.local/bin"
@@ -103,7 +103,10 @@ sd() {
         --env SHELL=/bin/zsh
         --env EDITOR=nvim
         --env VISUAL=nvim
+        --env "DIVAR_METABASE_MCP_URL=${DIVAR_METABASE_MCP_URL:-''}"
+        --env "DIVAR_MCP_URL=${DIVAR_MCP_URL:-''}"
     )
+
     # git-over-ssh host verification (noninteractive launches fail closed without it).
     if [[ -f $HOME/.ssh/known_hosts ]]; then
         args+=(-r "$HOME/.ssh/known_hosts")
@@ -119,6 +122,50 @@ sd() {
         args+=(--ssh-agent)
     fi
 
+    # Port-forward passthrough (repeatable), mirrors sbox flags:
+    #   -R/--remote-forward SPEC   listen in sandbox, forward to host
+    #   -L/--local-forward SPEC    listen on host, forward into sandbox
+    # SPEC is [BIND_IP:]PORT:DEST_IP:DEST_PORT (validated by sbox itself).
+    while (( $# > 0 )); do
+        case $1 in
+            -R|--remote-forward)
+                if (( $# < 2 )); then
+                    printf 'sd: %s requires a SPEC ([BIND:]PORT:DEST:PORT)\n' "$1" >&2
+                    return 1
+                fi
+                args+=(-R "$2")
+                shift 2
+                ;;
+            -L|--local-forward)
+                if (( $# < 2 )); then
+                    printf 'sd: %s requires a SPEC ([BIND:]PORT:DEST:PORT)\n' "$1" >&2
+                    return 1
+                fi
+                args+=(-L "$2")
+                shift 2
+                ;;
+            --remote-forward=*)
+                args+=(-R "${1#*=}")
+                shift
+                ;;
+            --local-forward=*)
+                args+=(-L "${1#*=}")
+                shift
+                ;;
+            --)
+                shift
+                break
+                ;;
+            -*)
+                printf 'sd: unknown option: %s (put -- before the command if it is part of it)\n' "$1" >&2
+                return 1
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
+
     if (( $# == 0 )); then
         set -- tmux new -A -s sandbox
     fi
@@ -128,7 +175,7 @@ sd() {
         mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
         exec "$@"
     ' sbox-dev "$@"
-}
+)
 
 sbrew() (
   tmpdir=$(mktemp -d) || exit
