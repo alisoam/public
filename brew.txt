@@ -3,6 +3,7 @@ yq
 neovim
 direnv
 uv
+buf
 opencode
 witr
 goenv
