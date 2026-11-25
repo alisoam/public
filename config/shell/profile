@@ -74,7 +74,9 @@ sd() (
         -a git.divar.cloud!private
         -a hekmat.data.divar.cloud!private
         -a mcp-gateway.divar.dev!private
+        -a repos.divar.cloud!private
         -a github.com
+        -a pythonhosted.org
         -a openai.com
         -a z.ai
         --overlay-mode single
